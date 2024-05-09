@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom"
+
 const Login = () => {
   return (
     <div className='flex justify-center items-center min-h-[calc(100vh-306px)]'>
