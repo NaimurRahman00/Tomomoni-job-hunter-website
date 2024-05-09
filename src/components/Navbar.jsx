@@ -1,27 +1,33 @@
 import { useContext } from "react";
 import { SiManjaro } from "react-icons/si";
 import { AuthContext } from "../provider/AuthProvider";
+import { Link, NavLink } from "react-router-dom";
 
 const Navbar = () => {
   const { user } = useContext(AuthContext);
   return (
-    <div className="bg-black/90">
-      <div className="navbar shadow-sm container px-4 lg:px-20 mx-auto text-white">
+    <div className="top-0 left-0 right-0 fixed">
+      <div className="navbar backdrop-blur-sm shadow-sm container px-4 lg:px-20 mx-auto text-white">
         <div className="flex-1">
           <div className="flex gap-2 items-center text-white text-2xl">
             <SiManjaro />
             <span className="font-bold font-briem">TomoMoni</span>
           </div>
         </div>
+        <div>
+          <ul>
+            <li>
+              <NavLink>Home</NavLink>
+            </li>
+          </ul>
+        </div>
         <div className="flex-none">
           <ul className="menu menu-horizontal px-1">
-            <li>
-              <div>Home</div>
-            </li>
-
             {!user && (
               <li>
-                <div>Login</div>
+                <Link to="/login" className="btn bg-none">
+                  Login
+                </Link>
               </li>
             )}
           </ul>
