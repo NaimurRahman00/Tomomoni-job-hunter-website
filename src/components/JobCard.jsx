@@ -1,6 +1,8 @@
 /* eslint-disable react/prop-types */
 
-const JobCard = () => {
+const JobCard = ({job}) => {
+
+  
   return (
     <div className='w-full h-96 max-w-sm px-4 py-3 bg-slate-500/10 text-white rounded-2xl shadow-md hover:scale-[1.02] transition-all'>
       <div className='flex items-center justify-between'>
@@ -8,13 +10,13 @@ const JobCard = () => {
           Deadline: 20/12/2024
         </span>
         <span className='px-3 py-1 text-[8px] uppercase bg-blue-200 rounded-full '>
-          Web Development
+          {job.job_title}
         </span>
       </div>
 
       <div>
         <h1 className='mt-2 text-lg font-semibold '>
-          Build Dynamic Website Using React
+          {job.name}
         </h1>
 
         <p className='mt-2 text-sm '>
