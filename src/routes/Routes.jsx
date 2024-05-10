@@ -10,7 +10,8 @@ const router = createBrowserRouter([
     element: <Home></Home>,
     children: [
       {index: true,
-        element: <Home2></Home2>
+        element: <Home2></Home2>,
+        loader: () => fetch(`${import.meta.env.VITE_API_URL}/jobs`)
       },
       {
         path: "/login",
