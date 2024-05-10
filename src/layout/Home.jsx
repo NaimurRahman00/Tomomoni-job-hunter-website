@@ -8,7 +8,10 @@ const Home = () => {
       {/* Navbar */}
       <Navbar></Navbar>
       {/* Outlet */}
+      <div className='min-h-[100vh]'>
       <Outlet></Outlet>
+
+      </div>
       {/* Footer */}
       <Footer></Footer>
     </div>
