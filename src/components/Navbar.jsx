@@ -6,7 +6,7 @@ import { Link, NavLink } from "react-router-dom";
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
   return (
-    <div className="top-0 left-0 right-0 fixed">
+    <div className="top-0 left-0 right-0 fixed z-10">
       <div className="navbar backdrop-blur-sm shadow-sm container px-4 lg:px-20 mx-auto text-white">
         <div className="flex-1">
           <div className="flex gap-2 items-center text-white text-2xl">
