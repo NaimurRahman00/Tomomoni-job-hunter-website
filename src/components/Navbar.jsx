@@ -4,7 +4,7 @@ import { AuthContext } from "../provider/AuthProvider";
 import { Link, NavLink } from "react-router-dom";
 
 const Navbar = () => {
-  const { user } = useContext(AuthContext);
+  const { user, logOut } = useContext(AuthContext);
   return (
     <div className="top-0 left-0 right-0 fixed">
       <div className="navbar backdrop-blur-sm shadow-sm container px-4 lg:px-20 mx-auto text-white">
@@ -39,11 +39,11 @@ const Navbar = () => {
                 role="button"
                 className="btn btn-ghost btn-circle avatar"
               >
-                <div className="w-10 rounded-full" title="">
+                <div className="w-10 rounded-full" title={user?.displayName}>
                   <img
                     referrerPolicy="no-referrer"
                     alt="User Profile Photo"
-                    src=""
+                    src={user?.photoURL}
                   />
                 </div>
               </div>
@@ -64,7 +64,7 @@ const Navbar = () => {
                   <div>Bid Requests</div>
                 </li>
                 <li className="mt-2">
-                  <button className="bg-gray-200 block text-center">
+                  <button onClick={logOut} className="bg-gray-200 block text-center">
                     Logout
                   </button>
                 </li>

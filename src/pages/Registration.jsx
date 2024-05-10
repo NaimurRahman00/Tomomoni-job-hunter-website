@@ -1,6 +1,32 @@
-import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../provider/AuthProvider";
+import toast from "react-hot-toast";
 
 const Registration = () => {
+  const navigate = useNavigate();
+  const { createUser, user, setUser, updateUserProfile } =
+    useContext(AuthContext);
+  // Email password sign in
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+    const name = form.name.value;
+    const photo = form.photo.value;
+    console.log({ name, email, photo, password });
+    try {
+      await createUser(email, password);
+      await updateUserProfile(name, photo);
+      setUser({ ...user, photoURL: photo, displayName: name });
+      navigate("/");
+      toast.success("Sign up successful!");
+    } catch (err) {
+      console.log(err);
+      toast.error(err?.message);
+    }
+  };
   return (
     <div className="max-w-[1540px] mx-auto">
       <div className="flex w-full h-[100vh] max-w-sm mx-auto overflow-hidden rounded-lg lg:max-w-full">
@@ -14,7 +40,7 @@ const Registration = () => {
           <p className="mt-3 mb-4 text-3xl font-bold text-white font-lato">
             Sign Up
           </p>
-          <form>
+          <form onSubmit={handleSignUp}>
             <div className="mt-4">
               <label
                 className="block mb-2 text-sm font-medium text-gray-600 "
@@ -84,21 +110,12 @@ const Registration = () => {
                 type="submit"
                 className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-black/50 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50"
               >
-                Sign In
+                Sign Up
               </button>
-            </div>
-            <div className="flex items-center justify-between mt-4">
-              <span className="w-1/5 border-b  lg:w-1/4"></span>
-
-              <div className="text-xs text-center text-gray-500 uppercase  hover:underline">
-                or login with email
-              </div>
-
-              <span className="w-1/5 border-b dark:border-gray-400 lg:w-1/4"></span>
             </div>
           </form>
 
-          <div className="flex items-center justify-between mt-14">
+          <div className="flex items-end justify-start mt-14">
             <span className="text-sm text-white/90">
               Already have an account?{" "}
               <Link to="/login" className="hover:underline">
