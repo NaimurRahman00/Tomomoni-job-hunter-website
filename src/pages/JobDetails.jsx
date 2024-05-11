@@ -4,6 +4,8 @@ import { useLoaderData } from "react-router-dom";
 import { AuthContext } from "../provider/AuthProvider";
 import React from "react";
 import Modal from "react-modal";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const JobDetails = () => {
   const jobData = useLoaderData();
@@ -16,6 +18,7 @@ const JobDetails = () => {
   const todaysDate = `${mm}-${dd}-${yyyy}`;
 
   const handleFormSubmission = async (e) => {
+
     e.preventDefault();
     const form = e.target;
     const name = form.name.value;
@@ -36,7 +39,19 @@ const JobDetails = () => {
       todaysDate,
       buyerEmail,
     };
-    console.table(bidData);
+
+    if(email === buyerEmail) return toast.error("Action not permitted!")
+
+    try {
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/bid`,
+        bidData
+      );
+      setIsOpen(false);
+      toast.success("Application submit successfully!")
+    } catch (err) {
+      toast.error(err.message)
+    }
   };
 
   // Modal
