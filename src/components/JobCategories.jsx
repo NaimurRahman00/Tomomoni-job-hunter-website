@@ -30,17 +30,17 @@ const JobCategories = () => {
             </h2>
           </div>
           <Tabs>
-            <TabList className="text-white/90">
-              <Tab>Web development</Tab>
-              <Tab>Digital marketing</Tab>
-              <Tab>Graphics designer</Tab>
-              <Tab>UI/UX designer</Tab>
+            <TabList className="text-white/90 space-x-8 text-lg font-semibold">
+              <Tab>On Site</Tab>
+              <Tab>Remote</Tab>
+              <Tab>Part Time</Tab>
+              <Tab>Hybrid</Tab>
             </TabList>
             <div className="my-8">
               <TabPanel>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {jobs
-                    .filter((web) => web.job_title === "web development")
+                    .filter((web) => web.category === "On Site")
                     .map((job) => (
                       <JobCard key={job._id} job={job}></JobCard>
                     ))}
@@ -49,7 +49,7 @@ const JobCategories = () => {
               <TabPanel>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {jobs
-                    .filter((web) => web.job_title === "Digital Marketing")
+                    .filter((web) => web.category === "Remote")
                     .map((job) => (
                       <JobCard key={job._id} job={job}></JobCard>
                     ))}
@@ -58,7 +58,7 @@ const JobCategories = () => {
               <TabPanel>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {jobs
-                    .filter((web) => web.job_title === "Graphics Design")
+                    .filter((web) => web.category === "Part Time")
                     .map((job) => (
                       <JobCard key={job._id} job={job}></JobCard>
                     ))}
@@ -67,7 +67,7 @@ const JobCategories = () => {
               <TabPanel>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {jobs
-                    .filter((web) => web.job_title === "UI/UX Design")
+                    .filter((web) => web.category === "Hybrid")
                     .map((job) => (
                       <JobCard key={job._id} job={job}></JobCard>
                     ))}

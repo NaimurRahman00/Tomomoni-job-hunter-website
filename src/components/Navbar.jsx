@@ -53,6 +53,7 @@ const Navbar = () => {
                     referrerPolicy="no-referrer"
                     alt="User Profile Photo"
                     src={user?.photoURL}
+                    className="grayscale "
                   />
                 </div>
               </div>
