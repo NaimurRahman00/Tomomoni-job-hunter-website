@@ -1,4 +1,3 @@
-import { useLoaderData } from "react-router-dom";
 import Banner from "../components/Banner";
 import JobCategories from "../components/JobCategories";
 
@@ -6,7 +5,6 @@ import JobCategories from "../components/JobCategories";
 const Home2 = () => {
   return (
     <div>
-
         <Banner></Banner>
         <JobCategories></JobCategories>
     </div>
