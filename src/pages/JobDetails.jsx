@@ -3,20 +3,41 @@ import { FaRegBookmark } from "react-icons/fa";
 import { useLoaderData } from "react-router-dom";
 import { AuthContext } from "../provider/AuthProvider";
 import React from "react";
-import ReactDOM from "react-dom";
 import Modal from "react-modal";
-import { BiBorderRadius } from "react-icons/bi";
 
 const JobDetails = () => {
   const jobData = useLoaderData();
   const { user } = useContext(AuthContext);
+  // todays date picker
+  const today = new Date();
+  const dd = String(today.getDate()).padStart(2, "0");
+  const mm = String(today.getMonth() + 1).padStart(2, "0"); // January is 0!
+  const yyyy = today.getFullYear();
+  const todaysDate = `${mm}-${dd}-${yyyy}`;
 
-  const handleFormSubmission = async e => {
+  const handleFormSubmission = async (e) => {
     e.preventDefault();
     const form = e.target;
+    const name = form.name.value;
+    const email = form.email.value;
+    const resume = form.resume.value;
     const jobId = jobData._id;
-    const price = parseFloat(form.price.value)
-  }
+    const totalBid = jobData.job_applicants_number;
+    const deadline = jobData.application_deadline;
+    const buyerEmail = jobData?.buyer_email || "buyer@gmail.com";
+
+    const bidData = {
+      name,
+      email,
+      resume,
+      jobId,
+      totalBid,
+      deadline,
+      todaysDate,
+      buyerEmail,
+    };
+    console.table(bidData);
+  };
 
   // Modal
   const customStyles = {
@@ -28,20 +49,16 @@ const JobDetails = () => {
       marginRight: "-50%",
       transform: "translate(-50%, -50%)",
       backgroundColor: "black",
-      opacity: '.9'
+      opacity: ".9",
     },
   };
 
-  let subtitle;
+  Modal.setAppElement("#root");
+
   const [modalIsOpen, setIsOpen] = React.useState(false);
 
   function openModal() {
     setIsOpen(true);
-  }
-
-  function afterOpenModal() {
-    // references are now sync'd and can be accessed.
-    subtitle.style.color = "#f00";
   }
 
   function closeModal() {
@@ -107,72 +124,70 @@ const JobDetails = () => {
       {/* React modal */}
       <Modal
         isOpen={modalIsOpen}
-        onAfterOpen={afterOpenModal}
         // onRequestClose={closeModal}
         style={customStyles}
         contentLabel="Example Modal"
       >
-        <button className="btn font-semibold" onClick={closeModal}>close</button>
-        <form>
-          <form onSubmit={handleFormSubmission}>
-            <div className="grid grid-cols-1 p-4 rounded-lg gap-6 sm:grid-cols-2 py-10">
-              <div>
-                <label className="text-white/80 " htmlFor="price">
-                  Price
-                </label>
-                <input
-                  id="price"
-                  type="number"
-                  name="price"
-                  className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-black focus:ring-black focus:ring-opacity-40  focus:outline-none focus:ring"
-                />
-              </div>
-
-              <div>
-                <label className="text-gray-700 " htmlFor="emailAddress">
-                  Email Address
-                </label>
-                <input
-                  id="emailAddress"
-                  type="email"
-                  name="email"
-                  defaultValue={user?.email}
-                  disabled
-                  className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md focus:outline-none focus:ring focus:border-black focus:ring-black focus:ring-opacity-40 "
-                />
-              </div>
-
-              <div>
-                <label className="text-gray-700 " htmlFor="comment">
-                  Comment
-                </label>
-                <input
-                  id="comment"
-                  name="comment"
-                  type="text"
-                  className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md   focus:border-black focus:ring-black focus:ring-opacity-40  focus:outline-none focus:ring"
-                />
-              </div>
-              <div className="flex flex-col gap-2 ">
-                <label className="text-gray-700">Deadline</label>
-
-                {/* Date Picker Input Field */}
-              </div>
+        <button
+          className="font-semibold py-1 px-3 bg-white/90 rounded-lg hover:bg-white/50 hover:text-white"
+          onClick={closeModal}
+        >
+          close
+        </button>
+        <form onSubmit={handleFormSubmission}>
+          <div className="grid grid-cols-1 p-4 rounded-lg gap-6 sm:grid-cols-2 py-10">
+            <div>
+              <label className="text-white/80 " htmlFor="name">
+                Name
+              </label>
+              <input
+                id="name"
+                type="text"
+                name="name"
+                defaultValue={user?.displayName}
+                disabled
+                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white/90 border border-gray-200 rounded-md  focus:border-black focus:ring-black focus:ring-opacity-40  focus:outline-none focus:ring"
+              />
             </div>
 
-            <div className="flex justify-end mt-6">
-              <button
-                type="submit"
-                className="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600"
-              >
-                Place Bid
-              </button>
+            <div>
+              <label className="text-white/80 " htmlFor="emailAddress">
+                Email Address
+              </label>
+              <input
+                id="emailAddress"
+                type="email"
+                name="email"
+                defaultValue={user?.email}
+                disabled
+                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white/90 border border-gray-200 rounded-md focus:outline-none focus:ring focus:border-black focus:ring-black focus:ring-opacity-40 "
+              />
             </div>
-          </form>
+
+            <div className="col-span-2">
+              <label className="text-white/80" htmlFor="resume">
+                Provide your resume link here
+              </label>
+              <input
+                id="resume"
+                name="resume"
+                type="text"
+                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white/90 border border-gray-200 rounded-md   focus:border-black focus:ring-black focus:ring-opacity-40  focus:outline-none focus:ring"
+              />
+            </div>
+          </div>
+
+          <div className="flex justify-end mt-6">
+            <button
+              type="submit"
+              className="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600"
+            >
+              Submit application
+            </button>
+          </div>
         </form>
       </Modal>
     </div>
-
   );
 };
 
