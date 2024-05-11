@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 const JobDetails = () => {
   const jobData = useLoaderData();
   const { user } = useContext(AuthContext);
+
   // todays date picker
   const today = new Date();
   const dd = String(today.getDate()).padStart(2, "0");
@@ -84,11 +85,12 @@ const JobDetails = () => {
     <div className="container mx-auto p-20">
       <div>
         <div className="relative w-full p-8 bg-gradient-to-tr from-slate-900/10 to-gray-700/50 rounded-2xl h-60 text-white/90">
-          {/* <div className="absolute h-40 w-40 bg-black/30 backdrop-blur-md rounded-full -bottom-1/4 left-20"></div> */}
+          <div className="absolute h-40 w-72 bg-black/30 backdrop-blur-md rounded-xl -bottom-1/4 right-16 overflow-hidden shadow-2xl shadow-black">
+            <img src={jobData.bannerUrl || "https://i.ibb.co/sQxR4qR/login-2-1.jpg"} alt="nai"  className="w-full h-full"/>
+          </div>
           <div>
-            <h1 className="text-6xl mb-6">{jobData.job_title}</h1>
             <p>
-              We are looking for a skilled {jobData.job_title}er to create a
+              We are looking for a skilled {jobData.title}er to create a
               responsive web page that closely replicates an existing event
               listing platform, with the addition of a simple form. This form
               will require basic validation checks before submission, such as
@@ -96,27 +98,28 @@ const JobDetails = () => {
               submission, the form should redirect users to a thank you page
               that maintains a consistent layout with the main site.
             </p>
+            <h1 className="text-6xl mt-6">{jobData.title}</h1>
           </div>
         </div>
-        <div className="h-96 my-8">
+        <div className="h-96 my-8 mt-20">
           <div className="w-full flex flex-col justify-between h-60 p-2.5 bg-zinc-800 text-white rounded-2xl border-black/70 border-2 shadow-md">
             <div className="flex flex-col w-full justify-between h-40 bg-black/40 rounded-xl p-4">
               <div className="flex justify-between items-center">
                 <h4 className="border border-white/70 rounded-3xl px-3 py-1 text-white/90">
-                  {jobData.job_posting_date}
+                  {jobData.postDate}
                 </h4>
                 <h4 className="bg-white/50 rounded-full p-2 text-black/90 cursor-pointer">
                   <FaRegBookmark />
                 </h4>
               </div>
               <div>
-                <h3>Deadline: {jobData.application_deadline}</h3>
+                <h3>Deadline: {new Date(jobData.applyDeadline).toLocaleDateString()}</h3>
                 <div className="flex justify-between items-end">
                   <h1 className="text-3xl mt-4 font-semibold ">
                     {jobData.name}
                   </h1>
                   <h2 className="bg-white/50 rounded-3xl px-3 py-1 text-black/90">
-                    Number of applicants: {jobData.job_applicants_number}
+                    Number of applicants: {jobData.job_applicant_number}
                   </h2>
                 </div>
               </div>
@@ -124,7 +127,7 @@ const JobDetails = () => {
 
             <div className="flex justify-between items-end pb-2 px-2">
               <div>
-                <h1>Salary range: {jobData.salary_range}</h1>
+                <h1>Salary range: ${jobData.min_price} - ${jobData.max_price}</h1>
               </div>
               <button
                 onClick={openModal}

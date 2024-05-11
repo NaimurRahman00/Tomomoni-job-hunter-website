@@ -68,7 +68,7 @@ const Navbar = () => {
                   <Link>Applied Jobs</Link>
                 </li>
                 <li>
-                  <Link to='/my-posted-job'>My Jobs</Link>
+                  <Link to='/my-posted-job'>My Posted Jobs</Link>
                 </li>
                 <li className="mt-2">
                   <button
