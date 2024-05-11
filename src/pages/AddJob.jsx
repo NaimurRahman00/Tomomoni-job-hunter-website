@@ -1,100 +1,191 @@
+import { useContext, useState } from "react";
+import { AuthContext } from "../provider/AuthProvider";
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
+
 const AddJob = () => {
+  const { user } = useContext(AuthContext);
+  // dropdown
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedValue, setSelectedValue] = useState("Job Category");
+  // array of options
+  const options = ["On Site", "Remote", "Part Time", "Hybrid"];
+  // date picker
+  const [startDate, setStartDate] = useState(new Date());
+    // todays date picker
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2, "0");
+    const mm = String(today.getMonth() + 1).padStart(2, "0"); // January is 0!
+    const yyyy = today.getFullYear();
+    const todaysDate = `${mm}-${dd}-${yyyy}`;
   return (
-    <div className='flex justify-center items-center min-h-[calc(100vh-306px)] my-12'>
-      <section className=' p-2 md:p-6 mx-auto bg-white rounded-md shadow-md '>
-        <h2 className='text-lg font-semibold text-gray-700 capitalize '>
-          Post a Job
-        </h2>
-
-        <form>
-          <div className='grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2'>
-            <div>
-              <label className='text-gray-700 ' htmlFor='job_title'>
-                Job Title
-              </label>
+    <div className="bg-zinc-800/70">
+      <div className="grid grid-cols-6 container mx-auto">
+        <div className="col-span-2 h-full py-32 ps-20">
+          <h1 className="text-8xl text-white/90 font-bold font-briem">Want to hire?</h1>
+          <h2 className="text-5xl mt-6 text-white/60 font-lato">Fill the form for post your job...</h2>
+        </div>
+        <div className="col-span-4 bg-black/10 p-14 w-full">
+          <form className="w-3/4 mx-auto py-20 grid grid-col-6 gap-4">
+            {/* Job banner url */}
+            <div className="mt-4 col-span-6">
               <input
-                id='job_title'
-                name='job_title'
-                type='text'
-                className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
+                id="url"
+                placeholder="Job banner Url"
+                autoComplete=".com"
+                name="url"
+                className="block w-full px-4 py-3 text-white/90 bg-transparent border rounded-xl   focus:border-white/50 focus:ring-opacity-40  focus:outline-none"
+                type="text"
               />
             </div>
-
-            <div>
-              <label className='text-gray-700 ' htmlFor='emailAddress'>
-                Email Address
-              </label>
+            {/* Name */}
+            <div className="mt-4 col-span-4">
               <input
-                id='emailAddress'
-                type='email'
-                name='email'
+                id="name"
+                name="name"
+                defaultValue={user?.displayName}
                 disabled
-                className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
+                className="block w-full px-4 py-3 text-white/90 bg-white/10 border rounded-xl   focus:border-white/50 focus:ring-opacity-40  focus:outline-none"
+                type="text"
               />
             </div>
-            <div className='flex flex-col gap-2 '>
-              <label className='text-gray-700'>Deadline</label>
-
-              {/* Date Picker Input Field */}
+            {/* email */}
+            <div className="mt-4 col-span-2">
+              <input
+                id="email"
+                name="email"
+                className="block bg-white/10 w-full px-4 py-3 text-white/90 border rounded-xl focus:border-white/50 focus:ring-opacity-40  focus:outline-none"
+                type="email"
+                defaultValue={user?.email}
+                disabled
+              />
             </div>
-
-            <div className='flex flex-col gap-2 '>
-              <label className='text-gray-700 ' htmlFor='category'>
-                Category
-              </label>
-              <select
-                name='category'
-                id='category'
-                className='border p-2 rounded-md'
+            {/* Title */}
+            <div className="mt-4 col-span-2">
+              <input
+                id="url"
+                autoComplete=".com"
+                name="url"
+                className="block w-full px-4 py-3 text-white/90 bg-transparent border rounded-xl    focus:border-white/50 focus:ring-opacity-40  focus:outline-none"
+                type="text"
+                placeholder="Job title"
+              />
+            </div>
+            {/* Category */}
+            <div className="relative col-span-4 mt-4">
+              {/* dropdown - btn */}
+              <div
+                onClick={() => setIsOpen(!isOpen)}
+                className="mx-auto flex justify-between w-72 items-center rounded-xl bg-white px-6 py-3 border"
               >
-                <option value='Web Development'>Web Development</option>
-                <option value='Graphics Design'>Graphics Design</option>
-                <option value='Digital Marketing'>Digital Marketing</option>
-              </select>
+                <h1 className="font-medium text-gray-600">{selectedValue}</h1>
+                <svg
+                  className={`${
+                    isOpen ? "-rotate-180" : "rotate-0"
+                  } duration-300`}
+                  width={25}
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g strokeWidth="0"></g>
+                  <g
+                    id="SVGRepo_tracerCarrier"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  ></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <path
+                      d="M7 10L12 15L17 10"
+                      stroke="#4B5563"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    ></path>{" "}
+                  </g>
+                </svg>
+              </div>
+              {/* dropdown - options  */}
+              <div
+                className={`${
+                  isOpen
+                    ? "absolute top-10 left-10 shadow-2xl transition shadow-black"
+                    : "hidden -top-4"
+                } absolute mx-auto backdrop-blur-2xl z-20 my-4 w-72 rounded-xl py-4 border duration-300`}
+              >
+                {options?.map((option, idx) => (
+                  <div
+                    key={idx}
+                    onClick={(e) => {
+                      setSelectedValue(e.target.textContent);
+                      setIsOpen(false);
+                    }}
+                    className="px-6 py-2 text-white hover:bg-gray-100"
+                  >
+                    {option}
+                  </div>
+                ))}
+              </div>
             </div>
-            <div>
-              <label className='text-gray-700 ' htmlFor='min_price'>
-                Minimum Price
-              </label>
+            {/* Salary range */}
+            {/* min price */}
+            <div className="mt-4 col-span-3">
               <input
-                id='min_price'
-                name='min_price'
-                type='number'
-                className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
+                id="min_price"
+                name="min_price"
+                className="block w-full px-4 py-3 text-white/90 bg-transparent border rounded-xl    focus:border-white/50 focus:ring-opacity-40  focus:outline-none"
+                type="number"
+                placeholder="Minimum price"
+              />
+            </div>
+            {/* max price */}
+            <div className="mt-4 col-span-3">
+              <input
+                id="max_price"
+                name="max_price"
+                className="block w-full px-4 py-3 text-white/90 bg-transparent border rounded-xl   focus:border-white/50 focus:ring-opacity-40  focus:outline-none"
+                type="number"
+                placeholder="Maximum price"
+              />
+            </div>
+            {/* Job applicant number */}
+            <div className="col-span-4">
+              <label htmlFor="job_applicant_number" className=" text-white">Job applicant number</label>
+              <input
+                id="Job_applicant_number"
+                name="Job_applicant_number"
+                className="block w-full px-4 py-3 mt-4 text-white/90 bg-transparent border rounded-xl   focus:border-white/50 focus:ring-opacity-40  focus:outline-none"
+                type="number"
+                defaultValue={0}
+              />
+            </div>
+            {/* date picker */}
+            <div className="w-full col-span-2 flex justify-end flex-col">
+              <h2 className="text-white/90 font-bold">
+                Create Deadline:
+              </h2>
+              <DatePicker
+                selected={startDate}
+                onChange={(date) => setStartDate(date)}
+                className="w-full mt-4 col-span-1 block px-4 py-3 text-black/90 bg-white border rounded-xl focus:border-white/50 focus:ring-opacity-40 focus:outline-none"
               />
             </div>
 
-            <div>
-              <label className='text-gray-700 ' htmlFor='max_price'>
-                Maximum Price
-              </label>
-              <input
-                id='max_price'
-                name='max_price'
-                type='number'
-                className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
-              />
+            {/* Add button */}
+            <div className="mt-6 col-span-6">
+              <button
+                type="submit"
+                className="w-full mt-4 px-6 py-4 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-black/50 rounded-xl hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50"
+              >
+                Add 
+              </button>
             </div>
-          </div>
-          <div className='flex flex-col gap-2 mt-4'>
-            <label className='text-gray-700 ' htmlFor='description'>
-              Description
-            </label>
-            <textarea
-              className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
-              name='description'
-              id='description'
-            ></textarea>
-          </div>
-          <div className='flex justify-end mt-6'>
-            <button className='px-8 py-2.5 leading-5 text-white transition-colors duration-300 transhtmlForm bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600'>
-              Save
-            </button>
-          </div>
-        </form>
-      </section>
+          </form>
+        </div>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default AddJob
+export default AddJob;

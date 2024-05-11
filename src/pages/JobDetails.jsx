@@ -187,6 +187,7 @@ const JobDetails = () => {
                 id="resume"
                 name="resume"
                 type="text"
+                required
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white/90 border border-gray-200 rounded-md   focus:border-black focus:ring-black focus:ring-opacity-40  focus:outline-none focus:ring"
               />
             </div>

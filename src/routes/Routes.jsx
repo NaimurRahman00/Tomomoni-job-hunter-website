@@ -4,11 +4,14 @@ import Login from "../pages/Login";
 import Registration from "../pages/Registration";
 import Home2 from "../layout/Home2";
 import JobDetails from "../pages/JobDetails";
+import ErrorPage from "../pages/ErrorPage";
+import AddJob from "../pages/AddJob";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home></Home>,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       {index: true,
         element: <Home2></Home2>
@@ -20,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: "/register",
         element: <Registration></Registration>
+      },
+      {
+        path: "/add-job",
+        element: <AddJob></AddJob>
       },
       {
         path: "/job-details/:id",

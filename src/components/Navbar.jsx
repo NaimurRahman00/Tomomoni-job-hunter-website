@@ -15,9 +15,18 @@ const Navbar = () => {
           </div>
         </div>
         <div>
-          <ul>
+          <ul className="flex items-center gap-4 mr-10">
             <li>
               <NavLink to="/">Home</NavLink>
+            </li>
+            <li>
+              <NavLink to="/erro">All Jobs</NavLink>
+            </li>
+            <li>
+              <NavLink to="/add-job">Add Job</NavLink>
+            </li>
+            <li>
+              <NavLink to="/">Blogs</NavLink>
             </li>
           </ul>
         </div>
@@ -52,19 +61,19 @@ const Navbar = () => {
                 className="menu menu-sm dropdown-content text-black mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
               >
                 <li>
-                  <div className="justify-between">Add Job</div>
+                  <Link>Profile</Link>
                 </li>
                 <li>
-                  <div>My Posted Jobs</div>
+                  <Link>Applied Jobs</Link>
                 </li>
                 <li>
-                  <div>My Bids</div>
-                </li>
-                <li>
-                  <div>Bid Requests</div>
+                  <Link >My Jobs</Link>
                 </li>
                 <li className="mt-2">
-                  <button onClick={logOut} className="bg-gray-200 block text-center">
+                  <button
+                    onClick={logOut}
+                    className="bg-gray-200 block text-center"
+                  >
                     Logout
                   </button>
                 </li>
