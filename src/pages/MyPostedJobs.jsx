@@ -32,6 +32,9 @@ const MyPostedJobs = () => {
     getData();
   }, [user]);
 
+  // Delete confirmation modal
+  const [openDeleteModal, setOpenModal] = useState(false);
+
   // Delete a data
   const handleDelete = async (id) => {
     try {
@@ -39,7 +42,6 @@ const MyPostedJobs = () => {
       toast.success("Delete successful!");
       getData();
     } catch (err) {
-      console.log(err.message);
       toast.error(err.message);
     }
   };
@@ -60,18 +62,66 @@ const MyPostedJobs = () => {
 
   Modal.setAppElement("#root");
 
-  const [modalIsOpen, setModalIsOpen] = React.useState(false);
+  const [UpdateModalIsOpen, setUpdateModalIsOpen] = React.useState(false);
 
   function openModal() {
-    setModalIsOpen(true);
+    setUpdateModalIsOpen(true);
   }
 
   function closeModal() {
-    setModalIsOpen(false);
+    setUpdateModalIsOpen(false);
   }
 
-  // Delete confirmation modal
-  const [openDeleteModal, setOpenModal] = useState(false);
+  // Update data
+  const [updateId, setUpdateId] = useState(null);
+  const selectedJobData = jobs.find((job) => job._id === updateId);
+  
+  const handleUpdateData = async (e) => {
+    try {
+
+      e.preventDefault();
+      const form = e.target;
+      const bannerUrl = form.url.value;
+      const name = selectedJobData?.buyer?.name;
+      const email = selectedJobData?.buyer?.email;
+      const category = selectedJobData?.category;
+      const title = form.title.value;
+      const min_price = form.min_price.value;
+      const max_price = form.max_price.value;
+      const job_applicant_number = selectedJobData?.job_applicant_number.value;
+      const applyDeadline = deadline;
+      const postDate = selectedJobData.postDate;
+      const description = form.description.value;
+
+      const updateJobData = {
+        bannerUrl,
+        title,
+        category,
+        min_price,
+        max_price,
+        job_applicant_number,
+        applyDeadline,
+        postDate,
+        description,
+        buyer: {
+          name,
+          email,
+          photo: user?.photoURL,
+        },
+      };
+
+      await axios.put(
+        `${import.meta.env.VITE_API_URL}/jobs/${updateId}`,
+        updateJobData
+      );
+      getData();
+      closeModal();
+      toast.success("Update successful!");
+    } catch (err) {
+      toast.error(err.message)
+      console.log(err)
+    }
+  };
 
   return (
     <section className="container p-20 pt-24 mx-auto">
@@ -180,7 +230,11 @@ const MyPostedJobs = () => {
                       <td className="px-4 py-4 text-sm whitespace-nowrap">
                         <div className="flex items-center gap-x-6">
                           <button
-                            onClick={openModal}
+                            onClick={() => {
+                              openModal();
+                              // handleUpdateData(job._id);
+                              setUpdateId(job._id);
+                            }}
                             className="text-gray-300 transition-colors duration-200   hover:text-black hover:bg-white focus:outline-none border border-white/20 px-2 py-1 rounded-lg"
                           >
                             Update
@@ -204,7 +258,7 @@ const MyPostedJobs = () => {
       </div>
       {/* React modal */}
       <Modal
-        isOpen={modalIsOpen}
+        isOpen={UpdateModalIsOpen}
         // onRequestClose={closeModal}
         style={customStyles}
         contentLabel="Example Modal"
@@ -215,7 +269,10 @@ const MyPostedJobs = () => {
         >
           close
         </button>
-        <form className="w-3/4 mx-auto py-8 grid grid-col-6 gap-4">
+        <form
+          onSubmit={handleUpdateData}
+          className="w-3/4 mx-auto py-8 grid grid-col-6 gap-4"
+        >
           {/* Job banner url */}
           <div className="mt-2 col-span-6">
             <input
@@ -223,6 +280,7 @@ const MyPostedJobs = () => {
               placeholder="Job banner Url"
               autoComplete=".com"
               name="url"
+              defaultValue={selectedJobData?.bannerUrl}
               className="block w-full px-4 py-3 text-white/90 bg-transparent border rounded-xl   focus:border-white/50 focus:ring-opacity-40  focus:outline-none"
               type="text"
             />
@@ -234,6 +292,7 @@ const MyPostedJobs = () => {
               name="title"
               className="block w-full px-4 py-3 text-white/90 bg-transparent border rounded-xl    focus:border-white/50 focus:ring-opacity-40  focus:outline-none"
               type="text"
+              defaultValue={selectedJobData?.title}
               placeholder="Job title"
             />
           </div>
@@ -302,6 +361,7 @@ const MyPostedJobs = () => {
               className="block w-full px-4 py-3 text-white/90 bg-transparent border rounded-xl    focus:border-white/50 focus:ring-opacity-40  focus:outline-none"
               type="number"
               placeholder="Minimum price"
+              defaultValue={selectedJobData?.min_price}
             />
           </div>
           {/* max price */}
@@ -312,6 +372,7 @@ const MyPostedJobs = () => {
               className="block w-full px-4 py-3 text-white/90 bg-transparent border rounded-xl   focus:border-white/50 focus:ring-opacity-40  focus:outline-none"
               type="number"
               placeholder="Maximum price"
+              defaultValue={selectedJobData?.max_price}
             />
           </div>
           {/* date picker */}
@@ -331,6 +392,7 @@ const MyPostedJobs = () => {
               name="description"
               className="block w-full px-4 py-3 text-white/90 bg-transparent border rounded-xl   focus:border-white/50 focus:ring-opacity-40  focus:outline-none"
               type="text"
+              required
             />
           </div>
 
