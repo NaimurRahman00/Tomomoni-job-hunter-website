@@ -3,9 +3,21 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../provider/AuthProvider";
 import { MdDelete } from "react-icons/md";
 import toast from "react-hot-toast";
+import React from "react";
+import Modal from "react-modal";
+import DatePicker from "react-datepicker";
+import { BiBorderRadius } from "react-icons/bi";
 
 const MyPostedJobs = () => {
   const { user } = useContext(AuthContext);
+  // date picker
+  const [deadline, setDeadline] = useState(new Date());
+
+  // dropdown
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedValue, setSelectedValue] = useState("Job Category");
+  // array of options
+  const options = ["On Site", "Remote", "Part Time", "Hybrid"];
 
   // getting data using axios
   const [jobs, setJobs] = useState([]);
@@ -32,6 +44,32 @@ const MyPostedJobs = () => {
       toast.error(err.message);
     }
   };
+
+  // Modal
+  const customStyles = {
+    content: {
+      top: "55%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+      backgroundColor: "black",
+      opacity: ".9",
+    },
+  };
+
+  Modal.setAppElement("#root");
+
+  const [modalIsOpen, setModalIsOpen] = React.useState(false);
+
+  function openModal() {
+    setModalIsOpen(true);
+  }
+
+  function closeModal() {
+    setModalIsOpen(false);
+  }
 
   return (
     <section className="container p-20 pt-24 mx-auto">
@@ -114,15 +152,18 @@ const MyPostedJobs = () => {
                           <p
                             className={`px-3 py-1 rounded-full text-black
                              text-xs font-bold ${
-                              job.category === 'On Site' && 
-                              'bg-black text-white/70'
-                             } ${ job.category === 'Remote' && 
-                             'bg-white/30 text-black/70'
-                             } ${ job.category === 'Part Time' && 
-                             'bg-white/60 text-black/70'
-                             } ${ job.category === 'Hybrid' && 
-                             'bg-black/30 text-white/70'
-                             }`}
+                               job.category === "On Site" &&
+                               "bg-black text-white/70"
+                             } ${
+                              job.category === "Remote" &&
+                              "bg-white/30 text-black/70"
+                            } ${
+                              job.category === "Part Time" &&
+                              "bg-white/60 text-black/70"
+                            } ${
+                              job.category === "Hybrid" &&
+                              "bg-black/30 text-white/70"
+                            }`}
                           >
                             {job.category}
                           </p>
@@ -136,7 +177,10 @@ const MyPostedJobs = () => {
                       </td>
                       <td className="px-4 py-4 text-sm whitespace-nowrap">
                         <div className="flex items-center gap-x-6">
-                          <button className="text-gray-300 transition-colors duration-200   hover:text-black hover:bg-white focus:outline-none border border-white/20 px-2 py-1 rounded-lg">
+                          <button
+                            onClick={openModal}
+                            className="text-gray-300 transition-colors duration-200   hover:text-black hover:bg-white focus:outline-none border border-white/20 px-2 py-1 rounded-lg"
+                          >
                             Update
                           </button>
 
@@ -158,6 +202,149 @@ const MyPostedJobs = () => {
           </div>
         </div>
       </div>
+      {/* React modal */}
+      <Modal
+        isOpen={modalIsOpen}
+        // onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="Example Modal"
+      >
+        <button
+          className="font-semibold py-1 px-3 bg-white/90 rounded-lg hover:bg-white/50 hover:text-white"
+          onClick={closeModal}
+        >
+          close
+        </button>
+        <form className="w-3/4 mx-auto py-8 grid grid-col-6 gap-4">
+          {/* Job banner url */}
+          <div className="mt-2 col-span-6">
+            <input
+              id="url"
+              placeholder="Job banner Url"
+              autoComplete=".com"
+              name="url"
+              className="block w-full px-4 py-3 text-white/90 bg-transparent border rounded-xl   focus:border-white/50 focus:ring-opacity-40  focus:outline-none"
+              type="text"
+            />
+          </div>
+          {/* Title */}
+          <div className="col-span-6">
+            <input
+              id="title"
+              name="title"
+              className="block w-full px-4 py-3 text-white/90 bg-transparent border rounded-xl    focus:border-white/50 focus:ring-opacity-40  focus:outline-none"
+              type="text"
+              placeholder="Job title"
+            />
+          </div>
+          {/* Category */}
+          <div className="relative col-span-6">
+            {/* dropdown - btn */}
+            <div
+              onClick={() => setIsOpen(!isOpen)}
+              className="mx-auto flex justify-between w-full items-center rounded-xl bg-white px-6 py-3 border"
+            >
+              <h1 className="font-medium text-gray-600">{selectedValue}</h1>
+              <svg
+                className={`${
+                  isOpen ? "-rotate-180" : "rotate-0"
+                } duration-300`}
+                width={25}
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g strokeWidth="0"></g>
+                <g
+                  id="SVGRepo_tracerCarrier"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                ></g>
+                <g id="SVGRepo_iconCarrier">
+                  <path
+                    d="M7 10L12 15L17 10"
+                    stroke="#4B5563"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  ></path>{" "}
+                </g>
+              </svg>
+            </div>
+            {/* dropdown - options  */}
+            <div
+              className={`${
+                isOpen
+                  ? "absolute top-10 left-0 shadow-2xl transition shadow-black"
+                  : "hidden -top-4"
+              } absolute mx-auto backdrop-blur-2xl z-20 my-4 w-72 rounded-xl py-4 border duration-300`}
+            >
+              {options?.map((option, idx) => (
+                <div
+                  key={idx}
+                  onClick={(e) => {
+                    setSelectedValue(e.target.textContent);
+                    setIsOpen(false);
+                  }}
+                  className="px-6 py-2 text-white hover:bg-gray-100"
+                >
+                  {option}
+                </div>
+              ))}
+            </div>
+          </div>
+          {/* Salary range */}
+          {/* min price */}
+          <div className="col-span-3">
+            <input
+              id="min_price"
+              name="min_price"
+              className="block w-full px-4 py-3 text-white/90 bg-transparent border rounded-xl    focus:border-white/50 focus:ring-opacity-40  focus:outline-none"
+              type="number"
+              placeholder="Minimum price"
+            />
+          </div>
+          {/* max price */}
+          <div className="col-span-3">
+            <input
+              id="max_price"
+              name="max_price"
+              className="block w-full px-4 py-3 text-white/90 bg-transparent border rounded-xl   focus:border-white/50 focus:ring-opacity-40  focus:outline-none"
+              type="number"
+              placeholder="Maximum price"
+            />
+          </div>
+          {/* date picker */}
+          <div className="w-full col-span-6 flex justify-end flex-col">
+            <h2 className="text-white/90 font-bold">Create Deadline:</h2>
+            <DatePicker
+              selected={deadline}
+              onChange={(date) => setDeadline(date)}
+              className="w-full mt-2 col-span-1 block px-4 py-3 text-black/90 bg-white border rounded-xl focus:border-white/50 focus:ring-opacity-40 focus:outline-none"
+            />
+          </div>
+          {/* description */}
+          <div className="col-span-6">
+            <textarea
+              id="description"
+              placeholder="Job description"
+              name="description"
+              className="block w-full px-4 py-3 text-white/90 bg-transparent border rounded-xl   focus:border-white/50 focus:ring-opacity-40  focus:outline-none"
+              type="text"
+            />
+          </div>
+
+          {/* Add button */}
+          <div className="col-span-6">
+            <button
+              type="submit"
+              className="w-full px-6 py-4 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-700/50 rounded-xl hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50"
+            >
+              Update
+            </button>
+          </div>
+        </form>
+      </Modal>
     </section>
   );
 };
