@@ -19,7 +19,7 @@ const JobCategories = () => {
   return (
     <div className="container px-20 mx-auto">
       <div className="grid grid-cols-12 gap-10">
-        <div className="col-span-3"></div>
+        <div className="col-span-3 rounded-lg bg-slate-100/10"></div>
         <div className="col-span-9">
           <div className="flex items-center gap-4 mb-8">
             <h1 className="text-white text-3xl font-bold">
@@ -36,7 +36,7 @@ const JobCategories = () => {
               <Tab>Part Time</Tab>
               <Tab>Hybrid</Tab>
             </TabList>
-            <div className="my-8">
+            <div className="mt-8">
               <TabPanel>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {jobs

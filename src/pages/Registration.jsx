@@ -1,12 +1,23 @@
-import { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../provider/AuthProvider";
 import toast from "react-hot-toast";
 
 const Registration = () => {
   const navigate = useNavigate();
-  const { createUser, user, setUser, updateUserProfile } =
+  const location = useLocation();
+  const from = location.state || "/";
+  const { createUser, user, setUser, updateUserProfile, loading } =
     useContext(AuthContext);
+
+  // Go to homepage if you are already login
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+      toast.success("Already registered!");
+    }
+  }, [navigate, user]);
+
   // Email password sign in
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -20,13 +31,15 @@ const Registration = () => {
       await createUser(email, password);
       await updateUserProfile(name, photo);
       setUser({ ...user, photoURL: photo, displayName: name });
-      navigate("/");
+      navigate(from, { replace: true });
       toast.success("Sign up successful!");
     } catch (err) {
       console.log(err);
       toast.error(err?.message);
     }
   };
+
+  if(user || loading) return
   return (
     <div className="max-w-[1540px] mx-auto">
       <div className="flex w-full h-[100vh] max-w-sm mx-auto overflow-hidden rounded-lg lg:max-w-full">

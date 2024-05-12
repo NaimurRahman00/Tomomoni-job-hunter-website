@@ -7,6 +7,8 @@ import JobDetails from "../pages/JobDetails";
 import ErrorPage from "../pages/ErrorPage";
 import AddJob from "../pages/AddJob";
 import MyPostedJobs from "../pages/MyPostedJobs";
+import PrivateRoute from "./PrivateRoute";
+import AppliedJobs from "../pages/AppliedJobs";
 
 const router = createBrowserRouter([
   {
@@ -14,31 +16,50 @@ const router = createBrowserRouter([
     element: <Home></Home>,
     errorElement: <ErrorPage></ErrorPage>,
     children: [
-      {index: true,
-        element: <Home2></Home2>
-      },
+      { index: true, element: <Home2></Home2> },
       {
         path: "/login",
-        element: <Login></Login>
+        element: <Login></Login>,
       },
       {
         path: "/register",
-        element: <Registration></Registration>
+        element: <Registration></Registration>,
       },
       {
         path: "/add-job",
-        element: <AddJob></AddJob>
+        element: (
+          <PrivateRoute>
+            <AddJob></AddJob>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/my-posted-job",
-        element: <MyPostedJobs></MyPostedJobs>
+        element: (
+          <PrivateRoute>
+            <MyPostedJobs></MyPostedJobs>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/job-details/:id",
-        element: <JobDetails></JobDetails>,
-        loader: ({params}) => fetch(`${import.meta.env.VITE_API_URL}/jobs/${params.id}`) 
-      }
-    ]
+        element: (
+          <PrivateRoute>
+            <JobDetails></JobDetails>
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`${import.meta.env.VITE_API_URL}/jobs/${params.id}`),
+      },
+      {
+        path: "/applied-jobs",
+        element: (
+          <PrivateRoute>
+            <AppliedJobs></AppliedJobs>
+          </PrivateRoute>
+        )
+      },
+    ],
   },
 ]);
 

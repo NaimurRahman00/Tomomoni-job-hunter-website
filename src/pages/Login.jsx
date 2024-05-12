@@ -1,18 +1,27 @@
-import { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../provider/AuthProvider";
 import toast from "react-hot-toast";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { signIn, signInWithGoogle } = useContext(AuthContext);
+  const { user, signIn, signInWithGoogle, loading } = useContext(AuthContext);
+  const location = useLocation()
+  const from = location.state || '/';
 
+  // Go to homepage if you are already login
+  useEffect(()=> {
+    if(user) {
+      navigate('/');
+      toast.success('Already logged in!')
+    }
+  },[navigate, user])
   // Google sign in
   const handleGoogleSignIn = async () => {
     try {
       await signInWithGoogle();
       toast.success('Log in successful!')
-      navigate("/");
+      navigate(from, {replace: true});
     } catch (err) {
       console.log(err);
       toast.error(err?.message)
@@ -36,6 +45,7 @@ const Login = () => {
     }
   }
 
+  if(user || loading) return
   return (
     <div className="max-w-[1540px] mx-auto">
       <div className="flex w-full h-[100vh] max-w-sm mx-auto overflow-hidden rounded-lg lg:max-w-full">
