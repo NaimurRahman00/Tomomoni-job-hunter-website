@@ -26,12 +26,19 @@ const JobDetails = () => {
     const email = form.email.value;
     const resume = form.resume.value;
     const jobId = jobData._id;
+    const category = jobData.category;
+    const title = jobData.title;
+    const min_price = jobData.min_price;
+    const max_price = jobData.max_price;
     const totalBid = jobData.job_applicants_number;
     const deadline = jobData.application_deadline;
     const buyerEmail = jobData?.buyer_email || "buyer@gmail.com";
 
     const bidData = {
       name,
+      title,
+      min_price,
+      max_price,
       email,
       resume,
       jobId,
@@ -39,6 +46,7 @@ const JobDetails = () => {
       deadline,
       todaysDate,
       buyerEmail,
+      category
     };
 
     if(email === buyerEmail) return toast.error("Action not permitted!")
