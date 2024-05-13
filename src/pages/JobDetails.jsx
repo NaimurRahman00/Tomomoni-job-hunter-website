@@ -104,12 +104,9 @@ const JobDetails = () => {
   return (
     <div className="container mx-auto p-20">
       <div>
-        <div className="relative w-full p-8 bg-gradient-to-tr from-slate-900/10 to-gray-700/50 rounded-2xl h-60 text-white/90">
-          <div className="absolute h-40 w-72 bg-black/30 backdrop-blur-md rounded-xl -bottom-1/4 right-16 overflow-hidden shadow-2xl shadow-black">
-            <img src={jobData.bannerUrl || "https://i.ibb.co/sQxR4qR/login-2-1.jpg"} alt="nai"  className="w-full h-full"/>
-          </div>
-          <div>
-            <p>
+        <div className="relative flex flex-col-reverse md:flex-row justify-between gap-10 w-full p-8 bg-gradient-to-tr from-slate-900/10 to-gray-700/50 rounded-2xl h-fit text-white/90">
+          <div className="flex flex-col-reverse gap-6">
+            <p className="text-sm md:text-base">
               We are looking for a skilled {jobData.title}er to create a
               responsive web page that closely replicates an existing event
               listing platform, with the addition of a simple form. This form
@@ -118,7 +115,10 @@ const JobDetails = () => {
               submission, the form should redirect users to a thank you page
               that maintains a consistent layout with the main site.
             </p>
-            <h1 className="text-6xl mt-6">{jobData.title}</h1>
+            <h1 className="text-3xl md:text-6xl mt-6">{jobData.title}</h1>
+          </div>
+          <div className="w-full bg-black/30 backdrop-blur-md rounded-xl overflow-hidden shadow shadow-black">
+            <img src={jobData.bannerUrl || "https://i.ibb.co/sQxR4qR/login-2-1.jpg"} alt="nai"  className="w-fit"/>
           </div>
         </div>
         <div className="h-96 my-8 mt-20">

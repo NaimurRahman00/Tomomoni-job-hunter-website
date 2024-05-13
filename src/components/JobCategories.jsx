@@ -25,8 +25,8 @@ const JobCategories = () => {
             <h1 className="text-white text-3xl font-bold">
               Recommended jobs
             </h1>
-            <h2 className="border border-white px-3 h-fit py-1 text-white/90 w-fit rounded-full">
-              245
+            <h2 className="border border-white px-3 h-fit text-white/90 w-fit rounded-full">
+              {jobs.length}
             </h2>
           </div>
           <Tabs>
