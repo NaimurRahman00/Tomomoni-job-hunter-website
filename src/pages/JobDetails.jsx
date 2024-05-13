@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { FaRegBookmark } from "react-icons/fa";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import { AuthContext } from "../provider/AuthProvider";
 import React from "react";
 import Modal from "react-modal";
@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 const JobDetails = () => {
   const jobData = useLoaderData();
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   // todays date picker
   const today = new Date();
@@ -17,6 +18,8 @@ const JobDetails = () => {
   const mm = String(today.getMonth() + 1).padStart(2, "0"); // January is 0!
   const yyyy = today.getFullYear();
   const todaysDate = `${mm}-${dd}-${yyyy}`;
+
+  console.log(jobData)
 
   const handleFormSubmission = async (e) => {
 
@@ -30,9 +33,9 @@ const JobDetails = () => {
     const title = jobData.title;
     const min_price = jobData.min_price;
     const max_price = jobData.max_price;
-    const totalBid = jobData.job_applicants_number;
-    const deadline = jobData.application_deadline;
-    const buyerEmail = jobData?.buyer_email || "buyer@gmail.com";
+    const totalBid = parseInt(jobData.job_applicant_number) + 1;
+    const deadline = new Date(jobData.applyDeadline).toLocaleDateString()
+    const buyerEmail = jobData?.buyer?.email || "buyer@gmail.com";
 
     const bidData = {
       name,
@@ -52,10 +55,19 @@ const JobDetails = () => {
     if(email === buyerEmail) return toast.error("Action not permitted!")
 
     try {
+      // apply jobs
       await axios.post(
         `${import.meta.env.VITE_API_URL}/bid`,
         bidData
       );
+      // update total bid
+      await axios.patch(
+        `${import.meta.env.VITE_API_URL}/jobs/${jobData._id}`,
+        {totalBid}
+      );
+      // navigate
+      navigate("/applied-jobs")
+
       setIsOpen(false);
       toast.success("Application submit successfully!")
     } catch (err) {

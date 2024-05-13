@@ -26,6 +26,15 @@ const Navbar = () => {
               <NavLink to="/add-job">Add Job</NavLink>
             </li>
             <li>
+              <Link to="/applied-jobs">Applied Jobs</Link>
+            </li>
+            <li>
+              <Link to="/my-posted-job">My Posted Jobs</Link>
+            </li>
+            <li>
+              <Link to="/bid-request">Bid Request</Link>
+            </li>
+            <li>
               <NavLink to="/">Blogs</NavLink>
             </li>
           </ul>
@@ -63,12 +72,6 @@ const Navbar = () => {
               >
                 <li>
                   <Link>Profile</Link>
-                </li>
-                <li>
-                  <Link to='/applied-jobs'>Applied Jobs</Link>
-                </li>
-                <li>
-                  <Link to='/my-posted-job'>My Posted Jobs</Link>
                 </li>
                 <li className="mt-2">
                   <button
