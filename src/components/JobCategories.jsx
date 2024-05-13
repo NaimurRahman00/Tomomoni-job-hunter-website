@@ -35,6 +35,7 @@ const JobCategories = () => {
               <Tab>Remote</Tab>
               <Tab>Part Time</Tab>
               <Tab>Hybrid</Tab>
+              <Tab>All Jobs</Tab>
             </TabList>
             <div className="mt-8">
               <TabPanel>
@@ -68,6 +69,14 @@ const JobCategories = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {jobs
                     .filter((web) => web.category === "Hybrid")
+                    .map((job) => (
+                      <JobCard key={job._id} job={job}></JobCard>
+                    ))}
+                </div>
+              </TabPanel>
+              <TabPanel>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {jobs
                     .map((job) => (
                       <JobCard key={job._id} job={job}></JobCard>
                     ))}
