@@ -13,18 +13,17 @@ const Footer = () => {
             </h2>
           </div>
           <p className="px-2 leading-relaxed">
-            ErgoCraft offers a diverse array of jute and wood crafts, perfect
-            for eco-friendly, artistic, and home decor enthusiasts
+          Tomomoni is a versatile job search platform that aggregates on-site, remote, part-time, and hybrid job listings. Ideal for diverse job seekers!
           </p>
         </aside>
         <nav className="col-span-2 ml-10">
           <h6 className="font-semibold text-lg font-unbounded uppercase">
-            About Us
+            Jobs
           </h6>
           <div className="flex flex-col gap-4 mt-5  font-medium">
-            <a className="link link-hover">How to order</a>
-            <a className="link link-hover">Warranty</a>
-            <a className="link link-hover">FAQ</a>
+            <a className="link link-hover">My posted jobs</a>
+            <a className="link link-hover">Applied jobs</a>
+            <a className="link link-hover">Bid request</a>
           </div>
         </nav>
         <nav className="col-span-3">
@@ -32,15 +31,11 @@ const Footer = () => {
             Information
           </h6>
           <div className="flex flex-col gap-4 mt-5  font-medium">
-            <a className="link link-hover">News</a>
-            <a className="link link-hover">Articles</a>
-            <a className="link link-hover">Brands</a>
+            <a className="link link-hover">Blogs</a>
+            <a className="link link-hover">FAQ</a>
           </div>
         </nav>
         <nav className="col-span-4 ml-6 w-full">
-          <h6 className=" font-semibold text-base font-unbounded uppercase">
-            10% discount on new account creation.
-          </h6>
           <div className="relative w-full border-b-2 border-gray-500 mt-4">
             <input
               className="peer focus:border-black bg-transparent py-2  focus:outline-none"
@@ -48,11 +43,11 @@ const Footer = () => {
               id="navigate_ui_input_44"
               placeholder="Name@gmail.com"
             />
-            <button className="absolute right-2 bottom-2 rounded-full bg-gray-400/20 px-6 py-2.5 text-xs font-medium text-black duration-300 active:scale-95 font-poppins">
+            <button className="absolute right-2 bottom-2 rounded-full bg-gray-400/90 px-6 py-2.5 text-xs font-medium text-black duration-300 active:scale-95 font-poppins">
               Signup
             </button>
           </div>
-          <div className="flex gap-4 justify-end w-full mt-3">
+          <div className="flex gap-4 justify-start w-full mt-1 mb-3">
           <button className="rounded-full text-white font-semibold mt-5 text-2xl py-2 px-2 bg-black/90 ">
               <FaInstagram />
             </button>
@@ -63,6 +58,9 @@ const Footer = () => {
               <FaPinterestP />
             </button>
           </div>
+          <h6 className="text-xs">
+            All right deserved @TomoMoni - 2024
+          </h6>
         </nav>
       </div>
     </footer>

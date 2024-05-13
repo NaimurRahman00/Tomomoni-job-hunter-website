@@ -15,7 +15,7 @@ const Navbar = () => {
           </div>
         </div>
         <div>
-          <ul className="flex items-center gap-4 mr-10">
+          <ul className={`flex items-center gap-4 ${user ? 'mr-4' : 'mr-10'}`}>
             <li>
               <NavLink to="/">Home</NavLink>
             </li>
@@ -23,21 +23,25 @@ const Navbar = () => {
               <NavLink to="/erro">All Jobs</NavLink>
             </li>
             <li>
-              <NavLink to="/add-job">Add Job</NavLink>
-            </li>
-            <li>
-              <Link to="/applied-jobs">Applied Jobs</Link>
-            </li>
-            <li>
-              <Link to="/my-posted-job">My Posted Jobs</Link>
-            </li>
-            <li>
-              <Link to="/bid-request">Bid Request</Link>
-            </li>
-            <li>
               <NavLink to="/">Blogs</NavLink>
             </li>
           </ul>
+          {user && (
+            <ul className="flex items-center gap-4 mr-10">
+              <li>
+                <NavLink to="/add-job">Add Job</NavLink>
+              </li>
+              <li>
+                <Link to="/applied-jobs">Applied Jobs</Link>
+              </li>
+              <li>
+                <Link to="/my-posted-job">My Posted Jobs</Link>
+              </li>
+              <li>
+                <Link to="/bid-request">Bid Request</Link>
+              </li>
+            </ul>
+          )}
         </div>
         <div className="flex-none">
           <ul className="menu menu-horizontal px-1">
