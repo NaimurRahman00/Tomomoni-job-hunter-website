@@ -6,6 +6,8 @@ import React from "react";
 import Modal from "react-modal";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useMutation } from "@tanstack/react-query";
+
 
 const JobDetails = () => {
   const jobData = useLoaderData();
@@ -52,7 +54,7 @@ const JobDetails = () => {
       category
     };
 
-    if(email === buyerEmail) return toast.error("Action not permitted!")
+    if(email === buyerEmail) return toast.error("You can't apply your job post!")
 
     try {
       // apply jobs
@@ -60,11 +62,13 @@ const JobDetails = () => {
         `${import.meta.env.VITE_API_URL}/bid`,
         bidData
       );
+
       // update total bid
       await axios.patch(
         `${import.meta.env.VITE_API_URL}/jobs/${jobData._id}`,
         {totalBid}
       );
+      
       // navigate
       navigate("/applied-jobs")
 

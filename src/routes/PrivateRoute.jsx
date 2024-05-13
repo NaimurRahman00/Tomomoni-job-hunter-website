@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 const PrivateRoute = ({ children }) => {
   // toast
   const displayErrorToast = () => {
-    toast.error("You have to log in first to view details");
+    toast.error("Please, log in");
   };
 
   const { user, loading } = useContext(AuthContext);
