@@ -11,12 +11,12 @@ const Registration = () => {
     useContext(AuthContext);
 
   // Go to homepage if you are already login
-  useEffect(() => {
-    if (user) {
-      navigate("/");
-      toast.success("Already registered!");
-    }
-  }, [navigate, user]);
+  // useEffect(() => {
+  //   if (user) {
+  //     navigate("/");
+  //     toast.success("Already registered!");
+  //   }
+  // }, [navigate, user]);
 
   // Email password sign in
   const handleSignUp = async (e) => {
@@ -28,6 +28,15 @@ const Registration = () => {
     const photo = form.photo.value;
     console.log({ name, email, photo, password });
     try {
+      if (!/^.{6,}$/.test(password)) {
+        return toast.error("Password length must minimum 6 letter!");
+      }
+      if (!/^(?=.*[A-Z]).+$/.test(password)) {
+        return toast.error("Password must have an Uppercase letter!");
+      }
+      if (!/^(?=.*[a-z]).+$/.test(password)) {
+        return toast.error("Password must have a Lowercase letter!");
+      }
       await createUser(email, password);
       await updateUserProfile(name, photo);
       setUser({ ...user, photoURL: photo, displayName: name });
@@ -39,7 +48,7 @@ const Registration = () => {
     }
   };
 
-  if(user || loading) return
+  // if(user || loading) return
   return (
     <div className="max-w-[1540px] mx-auto">
       <div className="flex w-full h-[100vh] max-w-sm mx-auto overflow-hidden rounded-lg lg:max-w-full">

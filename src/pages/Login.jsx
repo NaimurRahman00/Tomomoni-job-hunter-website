@@ -45,7 +45,7 @@ const Login = () => {
     }
   }
 
-  if(user || loading) return
+  // if(user || loading) return
   return (
     <div className="max-w-[1540px] mx-auto">
       <div className="flex w-full h-[100vh] max-w-sm mx-auto overflow-hidden rounded-lg lg:max-w-full">
