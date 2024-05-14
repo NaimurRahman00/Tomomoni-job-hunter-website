@@ -23,7 +23,7 @@ const Navbar = () => {
               <NavLink to="/all-jobs">All Jobs</NavLink>
             </li>
             <li>
-              <NavLink to="/">Blogs</NavLink>
+              <NavLink to="/blog">Blogs</NavLink>
             </li>
           </ul>
           {user && (
