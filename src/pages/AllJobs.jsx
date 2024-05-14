@@ -41,7 +41,7 @@ const AllJobs = () => {
                 type="text"
                 name="search"
                 className="bg-gray-100 w-full py-5 px-20 border rounded-lg text-black/80 text-md"
-                placeholder="Job title or keyword"
+                placeholder="Job title - Graphics design | Web development"
               />
               <input
                 type="submit"
