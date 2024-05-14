@@ -1,10 +1,17 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../provider/AuthProvider";
 import axios from "axios";
+import MyDocument from "./MyDocument";
+import { PDFViewer, PDFDownloadLink } from "@react-pdf/renderer";
 
 const AppliedJobs = () => {
   const { user } = useContext(AuthContext);
   const [bids, setBids] = useState([]);
+  const [bidsData, setBidsData] = useState([]);
+
+  useEffect(() => {
+    setBidsData(bids);
+  }, [bids]);
 
   // getting my bids data using axios
   const getData = async () => {
@@ -18,12 +25,16 @@ const AppliedJobs = () => {
     getData();
   }, [user]);
 
-  console.log(bids);
   // filter data
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState("Choose One");
   // array of options
   const options = ["On Site", "Remote", "Part Time", "Hybrid"];
+
+  const handleFilter = (option) => {
+    const filterdData = bidsData.filter((bid) => bid.category === option);
+    setBidsData(filterdData);
+  };
 
   return (
     <section className="container p-20 pt-24 mx-auto">
@@ -33,61 +44,65 @@ const AppliedJobs = () => {
             All the jobs I applied to
           </h2>
           <span className="px-3 py-1 text-sm text-white/90 bg-white/30 rounded-full ">
-            {bids.length}{" "}
-            {bids.length > 1 ? "Bids" : "bid"}
+            {bidsData.length} {bids.length > 1 ? "Bids" : "bid"}
           </span>
         </div>
         <div>
-          {/* dropdown - btn */}
-          <div
-            onClick={() => setIsOpen(!isOpen)}
-            className="mx-auto flex w-72 items-center justify-between rounded-xl bg-white px-6 py-2 border"
-          >
-            <h1 className="font-medium text-gray-600">{selectedValue}</h1>
-            <svg
-              className={`${isOpen ? "-rotate-180" : "rotate-0"} duration-300`}
-              width={25}
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+          <div>
+            {/* dropdown - btn */}
+            <div
+              onClick={() => setIsOpen(!isOpen)}
+              className="mx-auto flex w-72 items-center justify-between rounded-xl bg-white px-6 py-2 border"
             >
-              <g strokeWidth="0"></g>
-              <g
-                id="SVGRepo_tracerCarrier"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              ></g>
-              <g id="SVGRepo_iconCarrier">
-                <path
-                  d="M7 10L12 15L17 10"
-                  stroke="#4B5563"
-                  strokeWidth="1.5"
+              <h1 className="font-medium text-gray-600">{selectedValue}</h1>
+              <svg
+                className={`${
+                  isOpen ? "-rotate-180" : "rotate-0"
+                } duration-300`}
+                width={25}
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g strokeWidth="0"></g>
+                <g
+                  id="SVGRepo_tracerCarrier"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                ></path>{" "}
-              </g>
-            </svg>
-          </div>
-          {/* dropdown - options  */}
-          <div
-            className={`${
-              isOpen
-                ? "absolute top-0 opacity-100"
-                : "hidden -top-4 opacity-0"
-            } absolute top-32 shadow-3xl shadow-black backdrop-blur-xl mx-auto my-4 w-72 rounded-xl py-4 border transition duration-300`}
-          >
-            {options?.map((option, idx) => (
-              <div
-                key={idx}
-                onClick={(e) => {
-                  setSelectedValue(e.target.textContent);
-                  setIsOpen(false);
-                }}
-                className="px-6 py-2 text-white hover:bg-gray-100 hover:text-black"
-              >
-                {option}
-              </div>
-            ))}
+                ></g>
+                <g id="SVGRepo_iconCarrier">
+                  <path
+                    d="M7 10L12 15L17 10"
+                    stroke="#4B5563"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  ></path>{" "}
+                </g>
+              </svg>
+            </div>
+            {/* dropdown - options  */}
+            <div
+              className={`${
+                isOpen
+                  ? "absolute top-0 opacity-100"
+                  : "hidden -top-4 opacity-0"
+              } absolute top-32 shadow-3xl shadow-black backdrop-blur-xl mx-auto my-4 w-72 rounded-xl py-4 border transition duration-300`}
+            >
+              {options?.map((option, idx) => (
+                <div
+                  key={idx}
+                  onClick={(e) => {
+                    setSelectedValue(e.target.textContent);
+                    setIsOpen(false);
+                    handleFilter(option);
+                  }}
+                  className="px-6 py-2 text-white hover:bg-gray-100 hover:text-black"
+                >
+                  {option}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -144,7 +159,7 @@ const AppliedJobs = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-800 ">
-                  {bids.map((bid) => (
+                  {bidsData.map((bid) => (
                     <tr key={bid._id}>
                       <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">
                         {bid.title}
@@ -159,7 +174,8 @@ const AppliedJobs = () => {
                       </td>
                       <td className="px-4 py-4 text-sm whitespace-nowrap">
                         <div className="flex items-center gap-x-2">
-                          <p className={`px-3 py-1 rounded-full text-black
+                          <p
+                            className={`px-3 py-1 rounded-full text-black
                              text-xs font-bold ${
                                bid.category === "On Site" &&
                                "bg-zinc-900 text-white/70"
@@ -172,7 +188,8 @@ const AppliedJobs = () => {
                             } ${
                               bid.category === "Hybrid" &&
                               "bg-slate-700 text-white/70"
-                            }`}>
+                            }`}
+                          >
                             {bid.category}
                           </p>
                         </div>
@@ -211,6 +228,7 @@ const AppliedJobs = () => {
             </div>
           </div>
         </div>
+        
       </div>
     </section>
   );

@@ -75,7 +75,7 @@ const Banner = () => {
                     <p className="text-xl ">{banner.description}</p>
                   </div>
                   <div>
-                    <button className="btn w-fit font-bold">
+                    <button className="btn w-fit font-bold dark:bg-white dark:text-black/90">
                       Explore more
                     </button>
                   </div>
@@ -84,7 +84,7 @@ const Banner = () => {
             ))}
           </Swiper>
           <div className="relative mt-10">
-            <IoSearch className="absolute top-1/2 -translate-y-[45%] left-6" />
+            <IoSearch className="absolute top-1/2 -translate-y-[45%] left-6 dark:text-black/90" />
             <input
               type="text"
               className="bg-gray-100 w-full py-5 px-20 border rounded-lg text-black/80 text-md"
