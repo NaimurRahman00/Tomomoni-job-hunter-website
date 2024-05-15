@@ -17,7 +17,7 @@ const JobCard = ({ job }) => {
         </div>
         <div>
           <h2 className="text-3xl font-lato font-light mb-2">{job.title}</h2>
-          <h1 className="text-sm">Buyer: {job.buyer.name}</h1>
+          <h1 className="text-sm">Buyer: {job?.buyer?.name}</h1>
           <div className="mt-6 flex justify-between items-end">
             <h3>Deadline: <br /> {new Date(job.applyDeadline).toLocaleDateString()}</h3>
             <h2 className="bg-white/50 rounded-3xl px-3 py-1 text-black/90">Proposals: {job.job_applicant_number}</h2>

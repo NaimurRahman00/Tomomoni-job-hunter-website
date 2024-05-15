@@ -6,7 +6,7 @@ import React from "react";
 import Modal from "react-modal";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { useMutation } from "@tanstack/react-query";
+// import { useMutation } from "@tanstack/react-query";
 
 
 const JobDetails = () => {
@@ -21,7 +21,7 @@ const JobDetails = () => {
   const yyyy = today.getFullYear();
   const todaysDate = `${mm}-${dd}-${yyyy}`;
 
-  console.log(jobData)
+  console.log(jobData.applyDeadline)
 
   const handleFormSubmission = async (e) => {
 
@@ -37,6 +37,7 @@ const JobDetails = () => {
     const max_price = jobData.max_price;
     const totalBid = parseInt(jobData.job_applicant_number) + 1;
     const deadline = new Date(jobData.applyDeadline).toLocaleDateString()
+    console.log(deadline)
     const buyerEmail = jobData?.buyer?.email || "buyer@gmail.com";
 
     const bidData = {

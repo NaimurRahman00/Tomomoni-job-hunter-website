@@ -3,27 +3,23 @@ import { AuthContext } from "../provider/AuthProvider";
 import axios from "axios";
 import MyDocument from "./MyDocument";
 import { PDFDownloadLink } from "@react-pdf/renderer";
+import { useQuery } from "@tanstack/react-query";
 
 const AppliedJobs = () => {
   const { user } = useContext(AuthContext);
-  const [bids, setBids] = useState([]);
-  const [bidsData, setBidsData] = useState([]);
 
-  useEffect(() => {
-    setBidsData(bids);
-  }, [bids]);
+  // Getting data using TanStack queries
+  const { data: bids = [], isLoading } = useQuery({
+    queryKey: ["jobs"],
+    queryFn: async () => getData(),
+  });
 
-  // getting my bids data
+  // getting all jobs data using axios
   const getData = async () => {
-    const { data } = await axios(
+    return await axios(
       `${import.meta.env.VITE_API_URL}/my-email/${user?.email}`
     );
-    setBids(data);
   };
-
-  useEffect(() => {
-    getData();
-  }, [user]);
 
   // filter data
   const [isOpen, setIsOpen] = useState(false);
@@ -31,10 +27,17 @@ const AppliedJobs = () => {
   // array of options
   const options = ["On Site", "Remote", "Part Time", "Hybrid"];
 
-  const handleFilter = (option) => {
-    const filterdData = bidsData.filter((bid) => bid.category === option);
-    setBidsData(filterdData);
-  };
+  // const handleFilter = (option) => {
+  //   const filterdData = bidsData.filter((bid) => bid.category === option);
+  //   setBidsData(filterdData);
+  // };
+
+  if (isLoading)
+    return (
+      <div className="h-[100vh] flex justify-center items-center">
+        <div className="w-10 h-10 animate-[spin_1s_linear_infinite] rounded-full border-4 border-r-transparent border-l-transparent border-white/90"></div>
+      </div>
+    );
 
   return (
     <section className="container p-20 pt-24 mx-auto">
@@ -44,7 +47,7 @@ const AppliedJobs = () => {
             All the jobs I applied to
           </h2>
           <span className="px-3 py-1 text-sm text-white/90 bg-white/30 rounded-full ">
-            {bidsData.length} {bids.length > 1 ? "Bids" : "bid"}
+            {bids?.data?.length} {bids.length > 1 ? "Bids" : "bid"}
           </span>
         </div>
         <div>
@@ -95,7 +98,7 @@ const AppliedJobs = () => {
                   onClick={(e) => {
                     setSelectedValue(e.target.textContent);
                     setIsOpen(false);
-                    handleFilter(option);
+                    // handleFilter(option);
                   }}
                   className="px-6 py-2 text-white hover:bg-gray-100 hover:text-black"
                 >
@@ -112,7 +115,7 @@ const AppliedJobs = () => {
           <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
             <div className="overflow-hidden border border-gray-400  md:rounded-lg">
               <table className="min-w-full divide-y divide-gray-800 bg-black">
-                <thead className="">
+                <thead className="bg-zinc-800">
                   <tr>
                     <th
                       scope="col"
@@ -159,7 +162,7 @@ const AppliedJobs = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-800 ">
-                  {bidsData.map((bid) => (
+                  {bids?.data?.map((bid) => (
                     <tr key={bid._id}>
                       <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">
                         {bid.title}
