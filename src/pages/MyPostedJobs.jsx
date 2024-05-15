@@ -11,15 +11,16 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 const MyPostedJobs = () => {
   const { user } = useContext(AuthContext);
   const [deleteId, setDeleteId] = useState(null);
-  console.log(deleteId)
   // date picker
   const [deadline, setDeadline] = useState(new Date());
-
   // dropdown
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState("Job Category");
+
+
   // array of options
   const options = ["On Site", "Remote", "Part Time", "Hybrid"];
+  
 
   // Getting data using TanStack queries
   const { data: jobs = [], isLoading, refetch } = useQuery({
@@ -27,7 +28,7 @@ const MyPostedJobs = () => {
     queryFn: async () => getData(),
   });
 
-  // getting my posted jobs data using axios
+  // getting my posted jobs data 
   const getData = async () => {
     const data = await axios(`${import.meta.env.VITE_API_URL}/${user?.email}`);
     return data;

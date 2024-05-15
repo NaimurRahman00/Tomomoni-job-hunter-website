@@ -4,8 +4,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-// import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import { useMutation } from "@tanstack/react-query";
 
 const AddJob = () => {
   const { user } = useContext(AuthContext);
@@ -59,63 +59,26 @@ const AddJob = () => {
     };
 
     try {
-      await axios.post(
-        `${import.meta.env.VITE_API_URL}/job`,
-        postJobData
-      );
-      navigate('/my-posted-job')
-      toast.success("Job posted successfully!");
+    await  mutateAsync(postJobData)
     } catch (err) {
       toast.error(err.message)
     }
   };
 
-  // -----------------------
-  // Post job
-  // const { mutate, loading, error } = useMutation(
-  //   `${import.meta.env.VITE_API_URL}/job`
-  // );
 
-  // const handleJobPostFrom = async (e) => {
-  //   e.preventDefault();
-  //   const form = e.target;
-  //   const bannerUrl = form.url.value;
-  //   const name = form.name.value;
-  //   const email = form.email.value;
-  //   const title = form.title.value;
-  //   const category = selectedValue;
-  //   const min_price = form.min_price.value;
-  //   const max_price = form.max_price.value;
-  //   const job_applicant_number = form.job_applicant_number.value;
-  //   const applyDeadline = deadline;
-  //   const postDate = todaysDate;
-  //   const description = form.description.value;
-
-  //   const postJobData = {
-  //     bannerUrl,
-  //     title,
-  //     category,
-  //     min_price,
-  //     max_price,
-  //     job_applicant_number,
-  //     applyDeadline,
-  //     postDate,
-  //     description,
-  //     buyer: {
-  //       name,
-  //       email,
-  //       photo: user?.photoURL,
-  //     },
-  //   };
-
-  //   try {
-  //     await mutate(postJobData);
-  //     navigate("/my-posted-job");
-  //     toast.success("Job posted successfully!");
-  //   } catch (err) {
-  //     toast.error(err.message);
-  //   }
-  // };
+// Add job using tanstack query
+const { mutateAsync } = useMutation({
+  mutationFn: async (postJobData) => {
+    await axios.post(
+      `${import.meta.env.VITE_API_URL}/job`,
+      postJobData
+    );
+  },
+  onSuccess: ()=> {
+    navigate('/my-posted-job')
+    toast.success("Job posted successfully!");
+  },
+});
 
   return (
     <div className="bg-zinc-800/70">

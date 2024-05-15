@@ -7,7 +7,6 @@ import Modal from "react-modal";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useQuery } from "@tanstack/react-query";
-// import { useMutation } from "@tanstack/react-query";
 
 const JobDetails = () => {
   // const jobData = useLoaderData();
@@ -167,14 +166,14 @@ const JobDetails = () => {
                   </h3>
 
                 </div>
-                <div className="w-full bg-black/30 backdrop-blur-md rounded-xl overflow-hidden shadow shadow-black">
+                <div className="w-full h-fit bg-black/30 backdrop-blur-md rounded-xl overflow-hidden shadow shadow-black">
                   <img
                     src={
                       jobData?.data?.bannerUrl ||
                       "https://i.ibb.co/sQxR4qR/login-2-1.jpg"
                     }
                     alt="nai"
-                    className="w-fit"
+                    className="w-fit object-cover"
                   />
                 </div>
               </div>
