@@ -1,8 +1,9 @@
-# React + Vite
+# Name: TomoMoni
+# Live site: https://tomomoni-b17d8.web.app/
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# Features of this website: 
+- Job Posting: Employers can easily post job listings, including details such as job title, description, requirements, and location.
+- Job Applications: Job seekers can browse available jobs and submit applications directly through the platform.
+- Job Management: Users can manage their job listings, track applications, and communicate with potential candidates.
+- Editing and Deletion: Employers can update or delete job postings as needed.
+- UI experience: Users will get best UI/UX experience.

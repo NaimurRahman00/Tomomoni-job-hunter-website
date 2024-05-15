@@ -49,6 +49,15 @@ const BlogBody = () => {
             </div>
           </div>
         </div>
+        <div>
+          <h1 className="text-4xl font-lato font-bold text-white/90 mt-8">About this website (Explain my code)</h1>
+          <p className="mt-4 text-white/60">React-based Website: The front-end of Tomomoni is built using React.js, a popular JavaScript library for building user interfaces. React allows for the creation of interactive and dynamic components, facilitating a smooth and responsive user experience.</p>
+          <p className="mt-4 text-white/60">Login/Logout System: To manage user authentication and session management, you've implemented a login/logout system. This system likely utilizes React Router for routing and authentication mechanisms such as JSON Web Tokens (JWT) for secure authentication and authorization.</p>
+          <p className="mt-4 text-white/60">Tailwind CSS: Tomomoni's UI is styled using Tailwind CSS, a utility-first CSS framework that provides pre-built components and utility classes for rapid and consistent styling. Tailwind CSS enables you to create a visually appealing and modern user interface with minimal CSS code.</p>
+          <p className="mt-4 text-white/60">Various npm Packages: Your project utilizes various npm packages to extend the functionality of your application. These packages could include libraries for form validation, state management (e.g., Redux), HTTP requests (e.g., Axios), and other utility functions to enhance the development process and improve overall performance.</p>
+          <p className="mt-4 text-white/60">MongoDB for Database: MongoDB, a NoSQL database, serves as the backend database for Tomomoni. It offers flexibility and scalability, making it suitable for storing various types of data, including user profiles, job listings, and application data. Mongoose, a MongoDB object modeling tool for Node.js, may be used to interact with the database, define schemas, and perform CRUD operations.</p>
+          <p className="mt-4 text-white/60">Express: Express.js, a web application framework for Node.js, is used to build the backend server for Tomomoni. Express simplifies the process of handling HTTP requests, routing, middleware integration, and other server-side functionalities. It serves as the foundation for building a robust and scalable RESTful API to communicate with the frontend React application.</p>
+        </div>
       </div>
     </section>
   );
