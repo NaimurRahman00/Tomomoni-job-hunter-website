@@ -21,6 +21,7 @@ const MyPostedJobs = () => {
   // getting data using axios
   const [jobs, setJobs] = useState([]);
 
+
   const getData = async () => {
     const { data } = await axios(
       `${import.meta.env.VITE_API_URL}/${user?.email}`

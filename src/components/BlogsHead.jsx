@@ -6,8 +6,8 @@ const BlogsHead = () => {
           <div className="lg:w-3/4 lg:px-6">
             <img
               className="object-cover object-center w-full h-80 xl:h-[28rem] rounded-xl"
-              src="https://i.stack.imgur.com/BPJjA.png"
-              alt=""
+              src="https://i.ibb.co/7JQRR5C/BPJjA.png"
+              alt="Image nai"
             />
 
             <div>

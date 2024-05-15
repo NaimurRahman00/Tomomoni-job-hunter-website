@@ -23,7 +23,7 @@ const AllJobs = () => {
     e.preventDefault();
     const text = e.target.search.value;
     const getData = async () => {
-      const { data } = await axios(`${import.meta.env.VITE_API_URL}/${text}`);
+      const { data } = await axios(`${import.meta.env.VITE_API_URL}/jobs-title/${text}`);
       setJobs(data);
     };
     getData();

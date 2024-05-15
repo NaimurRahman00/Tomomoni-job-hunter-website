@@ -2,35 +2,59 @@ import { useContext, useEffect, useState } from "react";
 import { SiManjaro } from "react-icons/si";
 import { AuthContext } from "../provider/AuthProvider";
 import { Link, NavLink } from "react-router-dom";
-
+import { motion } from "framer-motion";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
-  const [theme, setTheme] = useState(localStorage.getItem("theme") ? localStorage.getItem("theme") : "light");
-  useEffect(()=> {
+  const [theme, setTheme] = useState(
+    localStorage.getItem("theme") ? localStorage.getItem("theme") : "light"
+  );
+  useEffect(() => {
     localStorage.setItem("theme", theme);
-    const localTheme = localStorage.getItem('theme');
-    document.querySelector('html').setAttribute('data-theme', localTheme)
-  }, [theme])
+    const localTheme = localStorage.getItem("theme");
+    document.querySelector("html").setAttribute("data-theme", localTheme);
+  }, [theme]);
 
   const handleToggle = (e) => {
-    if(e.target.checked) {
-      setTheme('dark')
+    if (e.target.checked) {
+      setTheme("dark");
     } else {
-      setTheme("light")
+      setTheme("light");
     }
-  }
+  };
 
   return (
-    <div className="top-0 left-0 right-0 fixed z-10">
+    <div className="top-0 left-0 right-0 fixed z-10 ">
       <div className="navbar backdrop-blur-sm shadow-sm container px-4 lg:px-20 mx-auto text-white">
-        <div className="flex-1">
+        <motion.div
+          initial={{ x: -100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{
+            delay: 0.2,
+            x: { type: "spring", stiffness: 60 },
+            opacity: { duration: 2 },
+            ease: "easeIn",
+            duration: 2,
+          }}
+          className="flex-1"
+        >
           <Link to="/" className="flex gap-2 items-center text-white text-2xl">
             <SiManjaro />
             <span className="font-bold font-briem">TomoMoni</span>
           </Link>
-        </div>
-        <div className="flex items-center">
+        </motion.div>
+        <motion.div
+          initial={{ x: 100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{
+            delay: 0.5,
+            x: { type: "spring", stiffness: 60 },
+            opacity: { duration: 2 },
+            ease: "easeIn",
+            duration: 1,
+          }}
+          className="flex items-center"
+        >
           <ul className={`flex items-center gap-4 ${user ? "mr-4" : "mr-10"}`}>
             <li>
               <NavLink
@@ -139,12 +163,23 @@ const Navbar = () => {
               </label>
             </li>
           </ul>
-        </div>
-        <div className="flex-none">
+        </motion.div>
+        <motion.div
+          initial={{ x: 100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{
+            delay: 0.5,
+            x: { type: "spring", stiffness: 60 },
+            opacity: { duration: 2 },
+            ease: "easeIn",
+            duration: 1,
+          }}
+          className="flex-none"
+        >
           <ul className="menu menu-horizontal px-1">
             {!user && (
               <li>
-                <Link to="/login" className="btn bg-none">
+                <Link to="/login" className="btn bg-none dark:bg-white/60 text-black/90">
                   Login
                 </Link>
               </li>
@@ -185,7 +220,7 @@ const Navbar = () => {
               </ul>
             </div>
           )}
-        </div>
+        </motion.div>
       </div>
     </div>
   );
