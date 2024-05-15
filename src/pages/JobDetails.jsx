@@ -1,18 +1,30 @@
 import { useContext } from "react";
 import { FaRegBookmark } from "react-icons/fa";
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../provider/AuthProvider";
 import React from "react";
 import Modal from "react-modal";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useQuery } from "@tanstack/react-query";
 // import { useMutation } from "@tanstack/react-query";
 
-
 const JobDetails = () => {
-  const jobData = useLoaderData();
+  // const jobData = useLoaderData();
+  const { id } = useParams();
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  // Getting data using TanStack queries
+  const { data: jobData = [], isLoading } = useQuery({
+    queryKey: ["jobs"],
+    queryFn: async () => getData(id),
+  });
+
+  // getting all jobs data using axios
+  const getData = async (id) => {
+    return await axios(`${import.meta.env.VITE_API_URL}/jobs/${id}`);
+  };
 
   // todays date picker
   const today = new Date();
@@ -21,10 +33,9 @@ const JobDetails = () => {
   const yyyy = today.getFullYear();
   const todaysDate = `${mm}-${dd}-${yyyy}`;
 
-  console.log(jobData.applyDeadline)
+  console.log(jobData.applyDeadline);
 
   const handleFormSubmission = async (e) => {
-
     e.preventDefault();
     const form = e.target;
     const name = form.name.value;
@@ -36,8 +47,8 @@ const JobDetails = () => {
     const min_price = jobData.min_price;
     const max_price = jobData.max_price;
     const totalBid = parseInt(jobData.job_applicant_number) + 1;
-    const deadline = new Date(jobData.applyDeadline).toLocaleDateString()
-    console.log(deadline)
+    const deadline = new Date(jobData.applyDeadline).toLocaleDateString();
+    console.log(deadline);
     const buyerEmail = jobData?.buyer?.email || "buyer@gmail.com";
 
     const bidData = {
@@ -52,31 +63,28 @@ const JobDetails = () => {
       deadline,
       todaysDate,
       buyerEmail,
-      category
+      category,
     };
 
-    if(email === buyerEmail) return toast.error("You can't apply your job post!")
+    if (email === buyerEmail)
+      return toast.error("You can't apply your job post!");
 
     try {
       // apply jobs
-      await axios.post(
-        `${import.meta.env.VITE_API_URL}/bid`,
-        bidData
-      );
+      await axios.post(`${import.meta.env.VITE_API_URL}/bid`, bidData);
 
       // update total bid
-      await axios.patch(
-        `${import.meta.env.VITE_API_URL}/jobs/${jobData._id}`,
-        {totalBid}
-      );
-      
+      await axios.patch(`${import.meta.env.VITE_API_URL}/jobs/${jobData._id}`, {
+        totalBid,
+      });
+
       // navigate
-      navigate("/applied-jobs")
+      navigate("/applied-jobs");
 
       setIsOpen(false);
-      toast.success("Application submit successfully!")
+      toast.success("Application submit successfully!");
     } catch (err) {
-      toast.error(err.message)
+      toast.error(err.message);
     }
   };
 
@@ -106,57 +114,81 @@ const JobDetails = () => {
     setIsOpen(false);
   }
 
+  if (isLoading) {
+    return (
+      <div className="h-[100vh] flex justify-center items-center">
+        <div className="w-10 h-10 animate-[spin_1s_linear_infinite] rounded-full border-4 border-r-transparent border-l-transparent border-white/90"></div>
+      </div>
+    );
+  }
+
   return (
     <div className="container mx-auto p-20">
       <div>
-        <div className="relative flex flex-col-reverse md:flex-row justify-between gap-10 w-full p-8 bg-gradient-to-tr from-slate-900/10 to-gray-700/50 rounded-2xl h-fit text-white/90">
-          <div className="flex flex-col-reverse gap-6">
-            <p className="text-sm md:text-base">
-              We are looking for a skilled {jobData.title}er to create a
-              responsive web page that closely replicates an existing event
-              listing platform, with the addition of a simple form. This form
-              will require basic validation checks before submission, such as
-              email verification and mandatory field completion. Upon successful
-              submission, the form should redirect users to a thank you page
-              that maintains a consistent layout with the main site.
-            </p>
-            <h1 className="text-3xl md:text-6xl mt-6">{jobData.title}</h1>
-          </div>
-          <div className="w-full bg-black/30 backdrop-blur-md rounded-xl overflow-hidden shadow shadow-black">
-            <img src={jobData.bannerUrl || "https://i.ibb.co/sQxR4qR/login-2-1.jpg"} alt="nai"  className="w-fit"/>
-          </div>
-        </div>
         <div className="h-96 my-8 mt-20">
-          <div className="w-full flex flex-col justify-between h-60 p-2.5 bg-zinc-800 text-white rounded-2xl border-black/70 border-2 shadow-md">
-            <div className="flex flex-col w-full justify-between h-40 bg-black/40 rounded-xl p-4">
+          <div className="w-full flex flex-col justify-between p-2.5 bg-gradient-to-tr from-slate-900/10 to-gray-700/50 text-white rounded-2xl border-black/70 border-2 shadow-md">
+            <div className="flex flex-col w-full justify-between bg-black/40 rounded-xl p-4">
               <div className="flex justify-between items-center">
                 <h4 className="border border-white/70 rounded-3xl px-3 py-1 text-white/90">
-                  {jobData.postDate}
+                  {jobData?.data?.postDate}
                 </h4>
                 <h4 className="bg-white/50 rounded-full p-2 text-black/90 cursor-pointer">
                   <FaRegBookmark />
                 </h4>
               </div>
-              <div>
-                <h3>Deadline: {new Date(jobData.applyDeadline).toLocaleDateString()}</h3>
-                <div className="flex justify-between items-end">
-                  <h1 className="text-3xl mt-4 font-semibold ">
-                    {jobData.name}
+              <div className="relative flex flex-col-reverse md:flex-row justify-between gap-10 w-full p-8 rounded-2xl h-fit text-white/90">
+                <div className="flex flex-col gap-6">
+                  <h1 className="text-3xl md:text-6xl mt-6">
+                    {jobData?.data?.title}
                   </h1>
-                  <h2 className="bg-white/50 rounded-3xl px-3 py-1 text-black/90">
-                    Number of applicants: {jobData.job_applicant_number}
-                  </h2>
+                  <p className="text-sm md:text-base">
+                    We are looking for a skilled {jobData?.data?.title}er to
+                    create a responsive web page that closely replicates an
+                    existing event listing platform, with the addition of a
+                    simple form. This form will require basic validation checks
+                    before submission, such as email verification and mandatory
+                    field completion. Upon successful submission, the form
+                    should redirect users to a thank you page that maintains a
+                    consistent layout with the main site.
+                  </p>
+                  <div>
+                    <h1>
+                      <span className="text-xl font-bold text-white/70">
+                        Salary range:
+                      </span>{" "}
+                      ${jobData?.data?.min_price} - ${jobData?.data?.max_price}
+                    </h1>
+                  </div>
+                  <h3>
+                    Deadline:{" "}
+                    {new Date(
+                      jobData?.data?.applyDeadline
+                    ).toLocaleDateString()}
+                  </h3>
+
+                </div>
+                <div className="w-full bg-black/30 backdrop-blur-md rounded-xl overflow-hidden shadow shadow-black">
+                  <img
+                    src={
+                      jobData?.data?.bannerUrl ||
+                      "https://i.ibb.co/sQxR4qR/login-2-1.jpg"
+                    }
+                    alt="nai"
+                    className="w-fit"
+                  />
                 </div>
               </div>
             </div>
 
             <div className="flex justify-between items-end pb-2 px-2">
-              <div>
-                <h1>Salary range: ${jobData.min_price} - ${jobData.max_price}</h1>
+              <div className="flex justify-between items-end">
+                <h2 className="bg-white/50 rounded-3xl px-3 py-1 text-black/90">
+                  Number of applicants: {jobData?.data?.job_applicant_number}
+                </h2>
               </div>
               <button
                 onClick={openModal}
-                className="px-4 py-1 bg-white/70 text-xl text-black/90 font-bold mt-4 rounded-full cursor-pointer"
+                className="px-4 py-1 bg-white/70 text-xl text-black/90 font-bold mt-4 rounded-full cursor-pointer hover:bg-white/50"
               >
                 Apply now
               </button>

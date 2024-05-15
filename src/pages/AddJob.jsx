@@ -137,7 +137,7 @@ const AddJob = () => {
               {/* dropdown - btn */}
               <div
                 onClick={() => setIsOpen(!isOpen)}
-                className="mx-auto flex justify-between w-72 items-center rounded-xl bg-white px-6 py-3 border"
+                className="mx-auto flex justify-between items-center rounded-xl bg-white px-6 py-3 border"
               >
                 <h1 className="font-medium text-gray-600">{selectedValue}</h1>
                 <svg
@@ -217,9 +217,10 @@ const AddJob = () => {
               <input
                 id="job_applicant_number"
                 name="job_applicant_number"
-                className="block w-full px-4 py-3 mt-2 text-white/90 bg-transparent border rounded-xl   focus:border-white/50 focus:ring-opacity-40  focus:outline-none"
+                className="block w-full px-4 py-3 mt-2 text-white/90 bg-transparent border rounded-xl   focus:border-white/50 focus:ring-opacity-40 focus:outline-none bg-zinc-700"
                 type="number"
                 defaultValue={0}
+                disabled
               />
             </div>
             {/* date picker */}
