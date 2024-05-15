@@ -6,10 +6,12 @@ import toast from "react-hot-toast";
 import React from "react";
 import Modal from "react-modal";
 import DatePicker from "react-datepicker";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 const MyPostedJobs = () => {
   const { user } = useContext(AuthContext);
+  const [deleteId, setDeleteId] = useState(null);
+  console.log(deleteId)
   // date picker
   const [deadline, setDeadline] = useState(new Date());
 
@@ -20,7 +22,7 @@ const MyPostedJobs = () => {
   const options = ["On Site", "Remote", "Part Time", "Hybrid"];
 
   // Getting data using TanStack queries
-  const { data: jobs = [], isLoading } = useQuery({
+  const { data: jobs = [], isLoading, refetch } = useQuery({
     queryKey: ["jobs"],
     queryFn: async () => getData(),
   });
@@ -34,16 +36,25 @@ const MyPostedJobs = () => {
   // Delete confirmation modal
   const [openDeleteModal, setOpenModal] = useState(false);
 
-  // Delete a data
+  // Delete a data using tanstack query
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${import.meta.env.VITE_API_URL}/jobs/${id}`);
-      toast.success("Delete successful!");
-      getData();
+      mutate(id);
     } catch (err) {
       toast.error(err.message);
     }
   };
+  // Delete a data using tanstack query
+  const { mutate } = useMutation({
+    mutationFn: async (id) => {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/jobs/${id}`);
+    },
+    onSuccess: ()=> {
+      refetch()
+      closeModal();
+      toast.success("Delete successful!");
+    },
+  });
 
   // update Modal
   const customStyles = {
@@ -70,6 +81,21 @@ const MyPostedJobs = () => {
   function closeModal() {
     setUpdateModalIsOpen(false);
   }
+
+  // Update data using tanstack query
+  const { mutateAsync } = useMutation({
+    mutationFn: async (updateJobData) => {
+      await axios.put(
+        `${import.meta.env.VITE_API_URL}/jobs/${updateId}`,
+        updateJobData
+      );
+    },
+    onSuccess: ()=> {
+      refetch()
+      closeModal();
+      toast.success("Update successful!");
+    },
+  });
 
   // Update data
   const [updateId, setUpdateId] = useState(null);
@@ -108,13 +134,8 @@ const MyPostedJobs = () => {
         },
       };
 
-      await axios.put(
-        `${import.meta.env.VITE_API_URL}/jobs/${updateId}`,
-        updateJobData
-      );
-      getData();
-      closeModal();
-      toast.success("Update successful!");
+      await mutateAsync(updateJobData);
+
     } catch (err) {
       toast.error(err.message);
       console.log(err);
@@ -247,7 +268,10 @@ const MyPostedJobs = () => {
                           </button>
 
                           <button
-                            onClick={() => setOpenModal(true)}
+                            onClick={() => {
+                              setOpenModal(true);
+                              setDeleteId(job._id)
+                            }}
                             className="text-gray-500 transition-colors duration-200   hover:text-white focus:outline-none text-2xl"
                           >
                             <MdDelete />
@@ -468,7 +492,7 @@ const MyPostedJobs = () => {
               <div className="flex gap-2">
                 <button
                   onClick={() => {
-                    handleDelete(job._id);
+                    handleDelete(deleteId);
                     setOpenModal(false);
                   }}
                   className="rounded-md bg-black/40 px-6 py-2 text-sm text-white hover:bg-black/80"
