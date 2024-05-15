@@ -1,39 +1,51 @@
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import { IoSearch } from "react-icons/io5";
 import { Link } from "react-router-dom";
 
 const AllJobs = () => {
-  const [jobs, setJobs] = useState([]);
-  // const [search, setSearch] = useState([]);
+  // Getting data using TanStack queries
+  const { data: jobs = [], isLoading } = useQuery({
+    queryKey: ["jobs"],
+    queryFn: async () => getData(),
+  });
 
-  // getting data using axios
-  useEffect(() => {
-    const getData = async () => {
-      const { data } = await axios(`${import.meta.env.VITE_API_URL}/jobs`);
-      setJobs(data);
-    };
-    getData();
-  }, []);
-
-  const pages = [1, 2, 3, 4, 5];
-  // search function
-  const handleSearch = (e) => {
-    e.preventDefault();
-    const text = e.target.search.value;
-    const getData = async () => {
-      const { data } = await axios(`${import.meta.env.VITE_API_URL}/jobs-title/${text}`);
-      setJobs(data);
-    };
-    getData();
-
+  // getting all jobs data using axios
+  const getData = async () => {
+    const data = await axios(`${import.meta.env.VITE_API_URL}/jobs`);
+    return data;
   };
+
+  // search function
+  // const handleSearch = (e) => {
+  //   e.preventDefault();
+  //   const text = e.target.search.value;
+  //   const getData = async () => {
+  //     const { data } = await axios(
+  //       `${import.meta.env.VITE_API_URL}/jobs-title/${text}`
+  //     );
+  //     setSearch(data);
+  //   };
+  //   getData(search);
+  // };
+
+  const pages = [1, 2, 3];
+
+  if (isLoading)
+    return (
+      <div className="h-[100vh] flex justify-center items-center">
+        <div className="w-10 h-10 animate-[spin_1s_linear_infinite] rounded-full border-4 border-r-transparent border-l-transparent border-white/90"></div>
+      </div>
+    );
 
   return (
     <div className="container p-20 pt-28 mx-auto min-h-[calc(100vh-306px)] flex flex-col justify-between">
       <div>
         <div className="max-w-[90%] mx-auto">
-          <form onSubmit={handleSearch}>
+          <form 
+          // onSubmit={handleSearch}
+          >
             <div className="relative mt-10">
               <IoSearch className="absolute top-1/2 -translate-y-[45%] left-6 dark:text-black/90" />
               <input
@@ -81,7 +93,7 @@ const AllJobs = () => {
                 </tr>
               </thead>
               <tbody>
-                {jobs.map((job) => (
+                {jobs?.data?.map((job) => (
                   <tr
                     key={job._id}
                     className="hover:bg-zinc-800  text-white/50 transition duration-300"
@@ -113,7 +125,7 @@ const AllJobs = () => {
         </div>
       </div>
 
-      {/* Navigation */}
+      {/* Pagination */}
       <div className="flex justify-center mt-12">
         <button className="px-4 py-2 mx-1 text-gray-700 disabled:text-gray-500 capitalize bg-gray-200 rounded-md disabled:cursor-not-allowed disabled:hover:bg-gray-200 disabled:hover:text-gray-500 hover:bg-zinc-500  hover:text-white">
           <div className="flex items-center -mx-1">

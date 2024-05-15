@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../provider/AuthProvider";
 import axios from "axios";
 import MyDocument from "./MyDocument";
-import { PDFViewer, PDFDownloadLink } from "@react-pdf/renderer";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 
 const AppliedJobs = () => {
   const { user } = useContext(AuthContext);
@@ -13,7 +13,7 @@ const AppliedJobs = () => {
     setBidsData(bids);
   }, [bids]);
 
-  // getting my bids data using axios
+  // getting my bids data
   const getData = async () => {
     const { data } = await axios(
       `${import.meta.env.VITE_API_URL}/my-email/${user?.email}`
@@ -232,7 +232,7 @@ const AppliedJobs = () => {
           <PDFDownloadLink document={<MyDocument />} fileName="example.pdf">
             <button className="text-xl box-border border-4 border-zinc-500 w-80 h-14 rounded-lg bg-black/10 relative group text-white">
               <span className="pr-8 text-white z-10">
-                {({ blob, url, loading, error }) =>
+                {({ loading }) =>
                   loading ? "Loading document..." : "Download Summary"
                 }
               </span>

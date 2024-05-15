@@ -7,22 +7,12 @@ import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 
 const JobCategories = () => {
-  // getting data using axios
-
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     const { data } = await axios(`${import.meta.env.VITE_API_URL}/jobs`);
-  //     setJobs(data);
-  //   };
-  //   getData();
-  // }, []);
-
   // Getting data using TanStack queries
   const { data: jobs = [], isLoading } = useQuery({
     queryKey: ["jobs"],
     queryFn: async () => getData(),
   });
-  console.log(jobs.data)
+  console.log(jobs.data);
 
   // getting all jobs data using axios
   const getData = async () => {
