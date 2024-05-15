@@ -4,18 +4,37 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import JobCard from "../components/JobCard";
 import { motion } from "framer-motion";
+import { useQuery } from "@tanstack/react-query";
 
 const JobCategories = () => {
   // getting data using axios
-  const [jobs, setJobs] = useState([]);
 
-  useEffect(() => {
-    const getData = async () => {
-      const { data } = await axios(`${import.meta.env.VITE_API_URL}/jobs`);
-      setJobs(data);
-    };
-    getData();
-  }, []);
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     const { data } = await axios(`${import.meta.env.VITE_API_URL}/jobs`);
+  //     setJobs(data);
+  //   };
+  //   getData();
+  // }, []);
+
+  // Getting data using TanStack queries
+  const { data: jobs = [], isLoading } = useQuery({
+    queryKey: ["jobs"],
+    queryFn: async () => getData(),
+  });
+  console.log(jobs.data)
+
+  // getting all jobs data using axios
+  const getData = async () => {
+    return await axios(`${import.meta.env.VITE_API_URL}/jobs`);
+  };
+
+  if (isLoading)
+    return (
+      <div className="h-[100vh] flex justify-center items-center">
+        <div className="w-10 h-10 animate-[spin_1s_linear_infinite] rounded-full border-4 border-r-transparent border-l-transparent border-white/90"></div>
+      </div>
+    );
 
   return (
     <div className="container px-20 mx-auto">
@@ -47,7 +66,7 @@ const JobCategories = () => {
           >
             <h1 className="text-white text-3xl font-bold">Recommended jobs</h1>
             <h2 className="border border-white px-3 h-fit text-white/90 w-fit rounded-full">
-              {jobs.length}
+              {jobs.data?.length}
             </h2>
           </motion.div>
           <Tabs>
@@ -84,8 +103,8 @@ const JobCategories = () => {
             >
               <TabPanel>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {jobs
-                    .filter((web) => web.category === "On Site")
+                  {jobs.data
+                    ?.filter((web) => web.category === "On Site")
                     .map((job) => (
                       <JobCard key={job._id} job={job}></JobCard>
                     ))}
@@ -93,8 +112,8 @@ const JobCategories = () => {
               </TabPanel>
               <TabPanel>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {jobs
-                    .filter((web) => web.category === "Remote")
+                  {jobs.data
+                    ?.filter((web) => web.category === "Remote")
                     .map((job) => (
                       <JobCard key={job._id} job={job}></JobCard>
                     ))}
@@ -102,8 +121,8 @@ const JobCategories = () => {
               </TabPanel>
               <TabPanel>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {jobs
-                    .filter((web) => web.category === "Part Time")
+                  {jobs.data
+                    ?.filter((web) => web.category === "Part Time")
                     .map((job) => (
                       <JobCard key={job._id} job={job}></JobCard>
                     ))}
@@ -111,8 +130,8 @@ const JobCategories = () => {
               </TabPanel>
               <TabPanel>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {jobs
-                    .filter((web) => web.category === "Hybrid")
+                  {jobs.data
+                    ?.filter((web) => web.category === "Hybrid")
                     .map((job) => (
                       <JobCard key={job._id} job={job}></JobCard>
                     ))}
@@ -120,7 +139,7 @@ const JobCategories = () => {
               </TabPanel>
               <TabPanel>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {jobs.map((job) => (
+                  {jobs.data?.map((job) => (
                     <JobCard key={job._id} job={job}></JobCard>
                   ))}
                 </div>

@@ -5,8 +5,7 @@ import { Link } from "react-router-dom";
 
 const AllJobs = () => {
   const [jobs, setJobs] = useState([]);
-  const [search, setSearch] = useState([]);
-  console.log(search);
+  // const [search, setSearch] = useState([]);
 
   // getting data using axios
   useEffect(() => {

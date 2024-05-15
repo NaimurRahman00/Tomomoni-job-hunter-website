@@ -7,10 +7,7 @@ const BidRequests = () => {
   const { user } = useContext(AuthContext);
   // const [bids, setBids] = useState([]);
 
-  const {
-    data: bids = [],
-    isLoading,
-  } = useQuery({
+  const { data: bids = [], isLoading } = useQuery({
     queryFn: () => getData(),
     queryKey: ["bids", user?.email],
   });
@@ -104,75 +101,77 @@ const BidRequests = () => {
                   </tr>
                 </thead>
                 <tbody className="bg-zinc-600 divide-y divide-gray-400 ">
-                  <tr>
-                    <td className="px-4 py-4 text-sm text-white/90  whitespace-nowrap">
-                      Build Dynamic Website
-                    </td>
-                    <td className="px-4 py-4 text-sm text-white/90  whitespace-nowrap">
-                      example@gmail.com
-                    </td>
+                  {bids?.data?.map((bid) => (
+                    <tr key={bid._id}>
+                      <td className="px-4 py-4 text-sm text-white/90  whitespace-nowrap">
+                        {bid.title}
+                      </td>
+                      <td className="px-4 py-4 text-sm text-white/90  whitespace-nowrap">
+                        {bid.email}
+                      </td>
 
-                    <td className="px-4 py-4 text-sm text-white/90  whitespace-nowrap">
-                      10/04/2024
-                    </td>
+                      <td className="px-4 py-4 text-sm text-white/90  whitespace-nowrap">
+                        {bid.deadline}
+                      </td>
 
-                    <td className="px-4 py-4 text-sm text-white/90  whitespace-nowrap">
-                      $200
-                    </td>
-                    <td className="px-4 py-4 text-sm whitespace-nowrap">
-                      <div className="flex items-center gap-x-2">
-                        <p
-                          className="px-3 py-1 rounded-full text-white/90 bg-zinc-800/60
-                           text-xs"
-                        >
-                          Web Development
-                        </p>
-                      </div>
-                    </td>
-                    <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                      <div className="inline-flex items-center px-3 py-1 rounded-full gap-x-2 bg-zinc-100/60 text-black/90">
-                        <span className="h-1.5 w-1.5 rounded-full bg-black/80"></span>
-                        <h2 className="text-sm font-normal ">Pending</h2>
-                      </div>
-                    </td>
-                    <td className="px-4 py-4 text-sm whitespace-nowrap">
-                      <div className="flex items-center gap-x-6">
-                        <button className="text-white/90 transition-colors duration-200   hover:text-black focus:outline-none">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth="1.5"
-                            stroke="currentColor"
-                            className="w-5 h-5"
+                      <td className="px-4 py-4 text-sm text-white/90  whitespace-nowrap">
+                        ${bid.min_price} - ${bid.max_price}
+                      </td>
+                      <td className="px-4 py-4 text-sm whitespace-nowrap">
+                        <div className="flex items-center gap-x-2">
+                          <p
+                            className="px-3 py-1 rounded-full text-white/90 bg-zinc-800/60
+                             text-xs"
                           >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="m4.5 12.75 6 6 9-13.5"
-                            />
-                          </svg>
-                        </button>
+                            {bid.category}
+                          </p>
+                        </div>
+                      </td>
+                      <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                        <div className="inline-flex items-center px-3 py-1 rounded-full gap-x-2 bg-zinc-100/60 text-black/90">
+                          <span className="h-1.5 w-1.5 rounded-full bg-black/80"></span>
+                          <h2 className="text-sm font-normal ">Pending</h2>
+                        </div>
+                      </td>
+                      <td className="px-4 py-4 text-sm whitespace-nowrap">
+                        <div className="flex items-center gap-x-6">
+                          <button className="text-white/90 transition-colors duration-200   hover:text-black focus:outline-none">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth="1.5"
+                              stroke="currentColor"
+                              className="w-5 h-5"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="m4.5 12.75 6 6 9-13.5"
+                              />
+                            </svg>
+                          </button>
 
-                        <button className="text-white/90 transition-colors duration-200   hover:text-black focus:outline-none">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth="1.5"
-                            stroke="currentColor"
-                            className="w-5 h-5"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M18.364 18.364A9 9 0 0 0 5.636 5.636m12.728 12.728A9 9 0 0 1 5.636 5.636m12.728 12.728L5.636 5.636"
-                            />
-                          </svg>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
+                          <button className="text-white/90 transition-colors duration-200   hover:text-black focus:outline-none">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth="1.5"
+                              stroke="currentColor"
+                              className="w-5 h-5"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M18.364 18.364A9 9 0 0 0 5.636 5.636m12.728 12.728A9 9 0 0 1 5.636 5.636m12.728 12.728L5.636 5.636"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
