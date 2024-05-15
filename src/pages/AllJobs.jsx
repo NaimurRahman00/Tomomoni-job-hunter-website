@@ -32,18 +32,19 @@ const AllJobs = () => {
 
   const pages = [1, 2, 3];
 
-  if (isLoading)
+  if (isLoading) {
     return (
       <div className="h-[100vh] flex justify-center items-center">
         <div className="w-10 h-10 animate-[spin_1s_linear_infinite] rounded-full border-4 border-r-transparent border-l-transparent border-white/90"></div>
       </div>
     );
+  }
 
   return (
     <div className="container p-20 pt-28 mx-auto min-h-[calc(100vh-306px)] flex flex-col justify-between">
       <div>
         <div className="max-w-[90%] mx-auto">
-          <form 
+          <form
           // onSubmit={handleSearch}
           >
             <div className="relative mt-10">

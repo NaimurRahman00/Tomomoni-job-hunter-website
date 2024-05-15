@@ -1,11 +1,12 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../provider/AuthProvider";
 import { MdDelete } from "react-icons/md";
 import toast from "react-hot-toast";
 import React from "react";
 import Modal from "react-modal";
 import DatePicker from "react-datepicker";
+import { useQuery } from "@tanstack/react-query";
 
 const MyPostedJobs = () => {
   const { user } = useContext(AuthContext);
@@ -18,20 +19,17 @@ const MyPostedJobs = () => {
   // array of options
   const options = ["On Site", "Remote", "Part Time", "Hybrid"];
 
-  // getting data using axios
-  const [jobs, setJobs] = useState([]);
+  // Getting data using TanStack queries
+  const { data: jobs = [], isLoading } = useQuery({
+    queryKey: ["jobs"],
+    queryFn: async () => getData(),
+  });
 
-
+  // getting my posted jobs data using axios
   const getData = async () => {
-    const { data } = await axios(
-      `${import.meta.env.VITE_API_URL}/${user?.email}`
-    );
-    setJobs(data);
+    const data = await axios(`${import.meta.env.VITE_API_URL}/${user?.email}`);
+    return data;
   };
-
-  useEffect(() => {
-    getData();
-  }, [user]);
 
   // Delete confirmation modal
   const [openDeleteModal, setOpenModal] = useState(false);
@@ -75,11 +73,10 @@ const MyPostedJobs = () => {
 
   // Update data
   const [updateId, setUpdateId] = useState(null);
-  const selectedJobData = jobs.find((job) => job._id === updateId);
-  
+  const selectedJobData = jobs?.data?.find((job) => job._id === updateId);
+
   const handleUpdateData = async (e) => {
     try {
-
       e.preventDefault();
       const form = e.target;
       const bannerUrl = form.url.value;
@@ -119,10 +116,18 @@ const MyPostedJobs = () => {
       closeModal();
       toast.success("Update successful!");
     } catch (err) {
-      toast.error(err.message)
-      console.log(err)
+      toast.error(err.message);
+      console.log(err);
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="h-[100vh] flex justify-center items-center">
+        <div className="w-10 h-10 animate-[spin_1s_linear_infinite] rounded-full border-4 border-r-transparent border-l-transparent border-white/90"></div>
+      </div>
+    );
+  }
 
   return (
     <section className="container p-20 pt-24 mx-auto">
@@ -132,7 +137,7 @@ const MyPostedJobs = () => {
         </h2>
 
         <span className="px-3 py-1 text-sm text-black font-bold bg-blue-100 rounded-full ">
-          {jobs.length} Jobs
+          {jobs?.data?.length} Jobs
         </span>
       </div>
 
@@ -187,7 +192,7 @@ const MyPostedJobs = () => {
                   </tr>
                 </thead>
                 <tbody className="bg-zinc-800 divide-y divide-gray-200/10 ">
-                  {jobs.map((job) => (
+                  {jobs?.data?.map((job) => (
                     <tr key={job._id}>
                       <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">
                         {job.title}
@@ -409,7 +414,7 @@ const MyPostedJobs = () => {
         </form>
       </Modal>
       {/* Delete confirmation modal */}
-      {jobs.map((job) => (
+      {jobs?.data?.map((job) => (
         <div
           key={job._id}
           onClick={() => setOpenModal(false)}
