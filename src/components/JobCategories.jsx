@@ -15,7 +15,8 @@ const JobCategories = () => {
 
   // getting all jobs data using axios
   const getData = async () => {
-    return await axios(`${import.meta.env.VITE_API_URL}/jobs`);
+    const jobDAta = await axios(`${import.meta.env.VITE_API_URL}/jobs`);
+    return jobDAta?.data;
   };
 
   if (isLoading)
@@ -261,7 +262,7 @@ const JobCategories = () => {
           >
             <h1 className="text-white text-3xl font-bold">Recommended jobs</h1>
             <h2 className="border border-white px-3 h-fit text-white/90 w-fit rounded-full">
-              {jobs.data?.length}
+              {jobs?.length}
             </h2>
           </motion.div>
           <Tabs>
@@ -298,7 +299,7 @@ const JobCategories = () => {
             >
               <TabPanel>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {jobs.data
+                  {Array.isArray(jobs) &&  jobs
                     ?.filter((web) => web.category === "On Site")
                     .map((job) => (
                       <JobCard key={job._id} job={job}></JobCard>
@@ -307,8 +308,7 @@ const JobCategories = () => {
               </TabPanel>
               <TabPanel>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {jobs.data
-                    ?.filter((web) => web.category === "Remote")
+                  {Array.isArray(jobs) && jobs?.filter((web) => web.category === "Remote")
                     .map((job) => (
                       <JobCard key={job._id} job={job}></JobCard>
                     ))}
@@ -316,8 +316,7 @@ const JobCategories = () => {
               </TabPanel>
               <TabPanel>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {jobs.data
-                    ?.filter((web) => web.category === "Part Time")
+                  {Array.isArray(jobs) && jobs?.filter((web) => web.category === "Part Time")
                     .map((job) => (
                       <JobCard key={job._id} job={job}></JobCard>
                     ))}
@@ -325,8 +324,7 @@ const JobCategories = () => {
               </TabPanel>
               <TabPanel>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {jobs.data
-                    ?.filter((web) => web.category === "Hybrid")
+                  {Array.isArray(jobs) && jobs?.filter((web) => web.category === "Hybrid")
                     .map((job) => (
                       <JobCard key={job._id} job={job}></JobCard>
                     ))}
@@ -334,7 +332,7 @@ const JobCategories = () => {
               </TabPanel>
               <TabPanel>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {jobs.data?.map((job) => (
+                  {Array.isArray(jobs) && jobs?.map((job) => (
                     <JobCard key={job._id} job={job}></JobCard>
                   ))}
                 </div>

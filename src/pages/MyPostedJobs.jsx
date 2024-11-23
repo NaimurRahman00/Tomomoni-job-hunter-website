@@ -45,6 +45,7 @@ const MyPostedJobs = () => {
       toast.error(err.message);
     }
   };
+  
   // Delete a data using tanstack query
   const { mutate } = useMutation({
     mutationFn: async (id) => {

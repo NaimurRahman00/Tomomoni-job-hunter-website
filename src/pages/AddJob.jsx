@@ -75,7 +75,7 @@ const { mutateAsync } = useMutation({
     );
   },
   onSuccess: ()=> {
-    // navigate('/my-posted-job')
+    navigate('/my-posted-job')
     toast.success("Job posted successfully!");
   },
 });

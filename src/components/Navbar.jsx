@@ -71,7 +71,7 @@ const Navbar = () => {
             ease: "easeIn",
             duration: 1,
           }}
-          className="flex items-center"
+          className="hidden sm:flex items-center"
         >
           <ul className={`flex items-center gap-4 ${user ? "mr-4" : "mr-10"}`}>
             <li>

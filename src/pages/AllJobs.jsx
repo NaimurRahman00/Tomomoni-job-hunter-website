@@ -5,6 +5,7 @@ import { IoSearch } from "react-icons/io5";
 import { Link } from "react-router-dom";
 
 const AllJobs = () => {
+
   // Getting data using TanStack queries
   const { data: jobs = [], isLoading } = useQuery({
     queryKey: ["jobs"],
@@ -14,8 +15,11 @@ const AllJobs = () => {
   // getting all jobs data using axios
   const getData = async () => {
     const data = await axios(`${import.meta.env.VITE_API_URL}/jobs`);
-    return data;
+    return data.data;
   };
+
+  // const allJobsData = jobs;
+  // console.log(allJobsData);
 
   // search function
   // const handleSearch = (e) => {
@@ -25,9 +29,9 @@ const AllJobs = () => {
   //     const { data } = await axios(
   //       `${import.meta.env.VITE_API_URL}/jobs-title/${text}`
   //     );
-  //     setSearch(data);
+      
   //   };
-  //   getData(search);
+  //   getData(text);
   // };
 
   const pages = [1, 2, 3];
@@ -43,6 +47,9 @@ const AllJobs = () => {
   return (
     <div className="container p-20 pt-28 mx-auto min-h-[calc(100vh-306px)] flex flex-col justify-between">
       <div>
+        <div>
+          <h1 className="text-5xl text-center font-bold text-white/80 font-lato">All posted jobs is here</h1>
+        </div>
         <div className="max-w-[90%] mx-auto">
           <form
           // onSubmit={handleSearch}
@@ -94,7 +101,7 @@ const AllJobs = () => {
                 </tr>
               </thead>
               <tbody>
-                {jobs?.data?.map((job) => (
+                {Array.isArray(jobs) && jobs?.map((job) => (
                   <tr
                     key={job._id}
                     className="hover:bg-zinc-800  text-white/50 transition duration-300"

@@ -22,7 +22,8 @@ const JobDetails = () => {
 
   // getting all jobs data using axios
   const getData = async (id) => {
-    return await axios(`${import.meta.env.VITE_API_URL}/jobs/${id}`);
+    const details = await axios(`${import.meta.env.VITE_API_URL}/jobs/${id}`);
+    return details.data;
   };
 
   // todays date picker
@@ -32,22 +33,21 @@ const JobDetails = () => {
   const yyyy = today.getFullYear();
   const todaysDate = `${mm}-${dd}-${yyyy}`;
 
-  console.log(jobData.applyDeadline);
-
   const handleFormSubmission = async (e) => {
     e.preventDefault();
     const form = e.target;
     const name = form.name.value;
     const email = form.email.value;
     const resume = form.resume.value;
-    const jobId = jobData._id;
-    const category = jobData.category;
-    const title = jobData.title;
-    const min_price = jobData.min_price;
-    const max_price = jobData.max_price;
-    const totalBid = parseInt(jobData.job_applicant_number) + 1;
-    const deadline = new Date(jobData.applyDeadline).toLocaleDateString();
-    console.log(deadline);
+    const jobId = jobData?._id;
+    const category = jobData?.category;
+    const title = jobData?.title;
+    const min_price = jobData?.min_price;
+    const max_price = jobData?.max_price;
+    const totalBid = parseInt(jobData?.job_applicant_number) + 1;
+    const deadline = new Date(
+      jobData?.applyDeadline
+    ).toLocaleDateString();
     const buyerEmail = jobData?.buyer?.email || "buyer@gmail.com";
 
     const bidData = {
@@ -65,21 +65,23 @@ const JobDetails = () => {
       category,
     };
 
+    
     if (email === buyerEmail)
       return toast.error("You can't apply your job post!");
-
+    
     try {
+      console.log(totalBid)
       // apply jobs
       await axios.post(`${import.meta.env.VITE_API_URL}/bid`, bidData);
 
       // update total bid
-      await axios.patch(`${import.meta.env.VITE_API_URL}/jobs/${jobData._id}`, {
-        totalBid,
-      });
+      await axios.patch(
+        `${import.meta.env.VITE_API_URL}/jobs/${jobData?._id}`,
+        { totalBid: totalBid }
+      );
 
       // navigate
       navigate("/applied-jobs");
-
       setIsOpen(false);
       toast.success("Application submit successfully!");
     } catch (err) {
@@ -129,7 +131,7 @@ const JobDetails = () => {
             <div className="flex flex-col w-full justify-between bg-black/40 rounded-xl p-4">
               <div className="flex justify-between items-center">
                 <h4 className="border border-white/70 rounded-3xl px-3 py-1 text-white/90">
-                  {jobData?.data?.postDate}
+                  {jobData?.postDate}
                 </h4>
                 <h4 className="bg-white/50 rounded-full p-2 text-black/90 cursor-pointer">
                   <FaRegBookmark />
@@ -138,10 +140,10 @@ const JobDetails = () => {
               <div className="relative flex flex-col-reverse md:flex-row justify-between gap-10 w-full p-8 rounded-2xl h-fit text-white/90">
                 <div className="flex flex-col gap-6">
                   <h1 className="text-3xl md:text-6xl mt-6">
-                    {jobData?.data?.title}
+                    {jobData?.title}
                   </h1>
                   <p className="text-sm md:text-base">
-                    We are looking for a skilled {jobData?.data?.title}er to
+                    We are looking for a skilled {jobData?.title}er to
                     create a responsive web page that closely replicates an
                     existing event listing platform, with the addition of a
                     simple form. This form will require basic validation checks
@@ -155,21 +157,20 @@ const JobDetails = () => {
                       <span className="text-xl font-bold text-white/70">
                         Salary range:
                       </span>{" "}
-                      ${jobData?.data?.min_price} - ${jobData?.data?.max_price}
+                      ${jobData?.min_price} - ${jobData?.max_price}
                     </h1>
                   </div>
                   <h3>
                     Deadline:{" "}
                     {new Date(
-                      jobData?.data?.applyDeadline
+                      jobData?.applyDeadline
                     ).toLocaleDateString()}
                   </h3>
-
                 </div>
                 <div className="w-full h-fit bg-black/30 backdrop-blur-md rounded-xl overflow-hidden shadow shadow-black">
                   <img
                     src={
-                      jobData?.data?.bannerUrl ||
+                      jobData?.bannerUrl ||
                       "https://i.ibb.co/sQxR4qR/login-2-1.jpg"
                     }
                     alt="nai"
@@ -182,7 +183,7 @@ const JobDetails = () => {
             <div className="flex justify-between items-end pb-2 px-2">
               <div className="flex justify-between items-end">
                 <h2 className="bg-white/50 rounded-3xl px-3 py-1 text-black/90">
-                  Number of applicants: {jobData?.data?.job_applicant_number}
+                  Number of applicants: {jobData?.job_applicant_number}
                 </h2>
               </div>
               <button

@@ -10,15 +10,17 @@ const AppliedJobs = () => {
 
   // Getting data using TanStack queries
   const { data: bids = [], isLoading } = useQuery({
-    queryKey: ["jobs"],
+    queryKey: ["jobs", user?.email],
+    enabled: !!user?.email,
     queryFn: async () => getData(),
   });
 
   // getting all jobs data using axios
   const getData = async () => {
-    return await axios(
+    const bidsData = await axios(
       `${import.meta.env.VITE_API_URL}/my-email/${user?.email}`
     );
+    return bidsData?.data;
   };
 
   // filter data
@@ -47,7 +49,7 @@ const AppliedJobs = () => {
             All the jobs I applied to
           </h2>
           <span className="px-3 py-1 text-sm text-white/90 bg-white/30 rounded-full ">
-            {bids?.data?.length} {bids.length > 1 ? "Bids" : "bid"}
+            {bids?.length} {bids.length > 1 ? "Bids" : "bid"}
           </span>
         </div>
         <div>
@@ -162,7 +164,7 @@ const AppliedJobs = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-800 ">
-                  {bids?.data?.map((bid) => (
+                  {Array.isArray(bids) && bids?.map((bid) => (
                     <tr key={bid._id}>
                       <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">
                         {bid.title}

@@ -12,18 +12,12 @@ const BidRequests = () => {
     queryKey: ["bids", user?.email],
   });
 
-  console.log(bids);
-
   // getting my bids data using axios
   const getData = async () => {
     return await axios(
       `${import.meta.env.VITE_API_URL}/bid-request/${user?.email}`
     );
   };
-
-  // useEffect(() => {
-  //   getData();
-  // }, [user]);
 
   if (isLoading)
     return (
