@@ -39,7 +39,7 @@ const JobCategories = () => {
             ease: "easeIn",
             duration: 0.4,
           }}
-          className="col-span-3 rounded-lg bg-slate-100/10 p-4"
+          className="col-span-3 rounded-lg bg-slate-100/10 p-4 hidden sm:block"
         >
           <aside className="flex flex-col w-64 h-screen px-5 py-8 overflow-y-auto dark:bg-transparent bg-transparent">
             <div className="flex flex-col justify-between flex-1 mt-6">
