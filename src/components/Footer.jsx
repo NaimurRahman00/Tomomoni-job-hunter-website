@@ -4,19 +4,19 @@ import { SiManjaro } from "react-icons/si";
 const Footer = () => {
   return (
     <footer className="text-base-content py-10">
-      <div className="container px-12 mx-auto max-w-[1480px] footer grid grid-cols-12 justify-stretch text-white/90">
+      <div className="container px-12 mx-auto max-w-[1480px] footer flex flex-col sm:grid grid-cols-12 justify-stretch text-white/90">
         <aside className="col-span-3">
-          <div className="scale-100 cursor-pointer rounded-2xl px-3 py-2 text-xl font-semibold transition-all duration-200 hover:scale-110">
+          <div className="scale-100 cursor-pointer rounded-2xl sm:px-3 py-2 text-xl font-semibold transition-all duration-200 hover:scale-110">
             <h2 className="text-4xl mb-3 flex gap-3 items-center text-white">
             <SiManjaro />
               <span className="font-briem">TomoMoni</span>
             </h2>
           </div>
-          <p className="px-2 leading-relaxed">
+          <p className="sm:px-2 leading-relaxed">
           Tomomoni is a versatile job search platform that aggregates on-site, remote, part-time, and hybrid job listings. Ideal for diverse job seekers!
           </p>
         </aside>
-        <nav className="col-span-2 ml-10">
+        <nav className="col-span-2 sm:ml-10">
           <h6 className="font-semibold text-lg font-unbounded uppercase">
             Jobs
           </h6>
@@ -35,7 +35,7 @@ const Footer = () => {
             <a className="link link-hover">FAQ</a>
           </div>
         </nav>
-        <nav className="col-span-4 ml-6 w-full">
+        <nav className="col-span-4 sm:ml-6 w-full">
           <div className="relative w-full border-b-2 border-gray-500 mt-4">
             <input
               className="peer focus:border-black bg-transparent py-2  focus:outline-none"
