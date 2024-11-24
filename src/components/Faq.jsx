@@ -35,7 +35,7 @@ const Faq = () => {
   const handleToggle = (idx) =>
     setIsOpen((prevIdx) => (prevIdx === idx ? null : idx));
   return (
-    <div className="container mx-auto px-20 pt-28 flex flex-col md:flex-row items-center justify-center">
+    <div className="container mx-auto sm:px-20 pt-28 flex flex-col md:flex-row items-center justify-center">
       <motion.div
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
