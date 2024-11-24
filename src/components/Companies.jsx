@@ -11,7 +11,7 @@ const Companies = () => {
       className="flex max-w-[1840px] mt-20 justify-center items-center px-20 bg-zinc-800 grayscale mx-auto overflow-hidden"
     >
       <div className="relative flex gap-20">
-        <div className="py-12 animate-marquee whitespace-nowrap flex gap-10">
+        <div className="sm:py-12 h-32 sm:h-fit animate-marquee whitespace-nowrap flex gap-10">
           <span className="bg-transparent mx-4 w-fit">
             <img src="google.png" alt="" />
           </span>
