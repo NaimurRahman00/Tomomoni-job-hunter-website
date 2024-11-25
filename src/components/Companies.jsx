@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { fadeIn } from "../../varient"
+// import { fadeIn } from "../../varient"
 const Companies = () => {
 
   return (

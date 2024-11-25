@@ -44,7 +44,7 @@ const Banner = () => {
     },
   ];
   return (
-    <div className="h-60 pt-20 px-20 w-full container mx-auto md:h-[470px] lg:h-[540px] relative overflow-hidden">
+    <div className="sm:h-60 pt-20 px-5 sm:px-20 w-full container mx-auto md:h-[470px] lg:h-[540px] relative overflow-hidden">
       <motion.div
         initial={{ x: -50, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
@@ -62,7 +62,7 @@ const Banner = () => {
         </h2>
         <PiStarFourFill className="animate-spin ease-in-out" />
       </motion.div>
-      <div className="grid grid-cols-12 my-10 gap-10">
+      <div className="flex flex-col sm:grid grid-cols-12 my-10 gap-5 sm:gap-10">
         <motion.div
           initial={{ x: -100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
@@ -73,12 +73,12 @@ const Banner = () => {
             ease: "easeIn",
             duration: 2,
           }}
-          className="col-span-3 w-full h-[145%] rounded-lg bg-slate-100/10 mx-auto p-4 flex flex-col justify-between"
+          className="space-y-2 sm:space-y-0 col-span-3 w-full h-[145%] rounded-lg bg-slate-100/10 mx-auto p-4 flex flex-col justify-between"
         >
-          <h1 className="text-4xl font-bold font-lato text-center mt-8 text-white/70">Get your best profession with <span className="font-briem">TomoMoni</span></h1>
+          <h1 className="text-2xl sm:text-4xl font-bold font-lato text-center sm:mt-8 text-white/70">Get your best profession with <span className="font-briem">TomoMoni</span></h1>
           <button className="text-xl bg-black rounded-full px-3 py-2 w-full font-medium text-white/70">Learn more</button>
         </motion.div>
-        <div className="col-span-9 w-full rounded-lg mx-auto h-60">
+        <div className="col-span-9 w-full rounded-lg mx-auto sm:h-60">
           <motion.div
             initial={{ x: 100, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
@@ -89,7 +89,7 @@ const Banner = () => {
               ease: "easeIn",
               duration: 2,
             }}
-            className="col-span-9 w-full rounded-lg mx-auto bg-slate-100/10 h-60"
+            className="col-span-9 w-full rounded-lg mx-auto bg-slate-100/10 sm:h-60"
           >
             <Swiper
               spaceBetween={30}
@@ -105,16 +105,16 @@ const Banner = () => {
               className="mySwiper text-white h-full"
             >
               {banners.map((banner, idx) => (
-                <SwiperSlide key={idx} className="p-8">
+                <SwiperSlide key={idx} className="p-4 sm:p-8">
                   <div className="flex flex-col justify-between h-full">
                     <div>
                       <h2 className="text-3xl font-bold mb-3 font-lato">
                         {banner.title}
                       </h2>
-                      <p className="text-xl ">{banner.description}</p>
+                      <p className="text-base sm:text-xl">{banner.description}</p>
                     </div>
                     <div>
-                      <button className="btn w-fit font-bold dark:bg-white dark:text-black/90 hover:bg-white/80">
+                      <button className="mt-4 sm:mt-0 btn w-fit font-bold dark:bg-white dark:text-black/90 hover:bg-white/80">
                         Explore more
                       </button>
                     </div>

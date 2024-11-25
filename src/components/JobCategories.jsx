@@ -27,8 +27,8 @@ const JobCategories = () => {
     );
 
   return (
-    <div className="container px-20 mx-auto">
-      <div className="grid grid-cols-12 gap-10">
+    <div className="container sm:px-20 mx-auto">
+      <div className="grid sm:grid-cols-12 sm:gap-10">
         <motion.div
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -39,7 +39,7 @@ const JobCategories = () => {
             ease: "easeIn",
             duration: 0.4,
           }}
-          className="col-span-3 rounded-lg bg-slate-100/10 p-4 hidden sm:block"
+          className="col-span-1 sm:col-span-3 rounded-lg bg-slate-100/10 p-4 hidden sm:block"
         >
           <aside className="flex flex-col w-64 h-screen px-5 py-8 overflow-y-auto dark:bg-transparent bg-transparent">
             <div className="flex flex-col justify-between flex-1 mt-6">
@@ -247,7 +247,7 @@ const JobCategories = () => {
             </div>
           </aside>
         </motion.div>
-        <div className="col-span-9">
+        <div className="sm:col-span-9">
           <motion.div
             initial={{ x: 100, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
@@ -298,7 +298,7 @@ const JobCategories = () => {
               className="mt-8"
             >
               <TabPanel>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 sm:gap-6 w-[95%] mx-auto">
                   {Array.isArray(jobs) &&  jobs
                     ?.filter((web) => web.category === "On Site")
                     .map((job) => (
@@ -307,7 +307,7 @@ const JobCategories = () => {
                 </div>
               </TabPanel>
               <TabPanel>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 sm:gap-6">
                   {Array.isArray(jobs) && jobs?.filter((web) => web.category === "Remote")
                     .map((job) => (
                       <JobCard key={job._id} job={job}></JobCard>
