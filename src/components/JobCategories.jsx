@@ -247,7 +247,7 @@ const JobCategories = () => {
             </div>
           </aside>
         </motion.div>
-        <div className="sm:col-span-9">
+        <div className="sm:col-span-9 mx-5">
           <motion.div
             initial={{ x: 100, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
@@ -277,7 +277,7 @@ const JobCategories = () => {
                 duration: 1,
               }}
             >
-              <TabList className="text-white/90 space-x-8 text-lg font-semibold">
+              <TabList className="text-white/90 sm:space-x-8 text-lg font-semibold">
                 <Tab>On Site</Tab>
                 <Tab>Remote</Tab>
                 <Tab>Part Time</Tab>
@@ -298,7 +298,7 @@ const JobCategories = () => {
               className="mt-8"
             >
               <TabPanel>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 sm:gap-6 w-[95%] mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 sm:gap-6 mx-auto">
                   {Array.isArray(jobs) &&  jobs
                     ?.filter((web) => web.category === "On Site")
                     .map((job) => (
